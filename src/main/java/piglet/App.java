@@ -1,20 +1,11 @@
 package piglet;
 
-import piglet.Controller.Controller;
-import piglet.Model.Model;
-import piglet.View.View;
+import piglet.Controller.StartController;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
     {
-        Model model = new Model();
-        View view = new View();
-        Controller controller = new Controller(model, view);
-        controller.run();
+        StartController controller = new StartController();
     }
 }
