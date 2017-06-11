@@ -1,11 +1,13 @@
 package piglet.View;
 
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class StartView implements IView {
+public class StartView implements IView{
     private JPanel mainPanel;
     private JLabel title;
     private JButton usersViewButton;

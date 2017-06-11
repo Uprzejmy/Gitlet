@@ -1,5 +1,7 @@
 package piglet.Model;
 
+import piglet.View.IObserver;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -9,14 +11,16 @@ import java.util.Collection;
 public class Model {
 
     private static Model model = null;
-    Collection<User> users;
+    private Collection<User> users;
+    Collection<IObserver> usersModelObservers;
 
     private Model()
     {
         users = new ArrayList<>();
+        usersModelObservers = new ArrayList<>();
 
-        users.add(new User("user1","sha example key1"));
-        users.add(new User("user2","sha example key2"));
+        users.add(new User("user1","example public key1"));
+        users.add(new User("user2","example public key2"));
     }
 
     public static Model getInstance()
@@ -29,8 +33,28 @@ public class Model {
         return model;
     }
 
-    public String example()
+    public Collection<User> getUsers()
     {
-        return "model function call";
+        return users;
+    }
+
+    public void addUser(String username, String publicKey)
+    {
+        users.add(new User(username, publicKey));
+
+        notifyUsersModelObservers();
+    }
+
+    public void registerUsersModelObserver(IObserver observer)
+    {
+        usersModelObservers.add(observer);
+    }
+
+    private void notifyUsersModelObservers()
+    {
+        for(IObserver observer : usersModelObservers)
+        {
+            observer.update();
+        }
     }
 }
