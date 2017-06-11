@@ -21,7 +21,7 @@ public class GroupsView implements IView, IObserver {
         this.model = model;
         this.model.registerUsersModelObserver(this);
 
-        frame = new JFrame("users view");
+        frame = new JFrame("groups view");
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -30,6 +30,6 @@ public class GroupsView implements IView, IObserver {
 
     public void update()
     {
-        groupsList.setListData(model.getUsers().toArray());
+        groupsList.setListData(model.getGroups().toArray());
     }
 }

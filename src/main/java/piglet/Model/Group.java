@@ -12,7 +12,8 @@ public class Group implements IPermissionTarget {
     private String name;
     private List<User> users = new ArrayList<>();
 
-    public Group(String name) {
+    public Group(String name)
+    {
         this.name = name;
     }
 
@@ -36,5 +37,11 @@ public class Group implements IPermissionTarget {
         {
             user.addGroup(this);
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return name + " users: " + users.size();
     }
 }

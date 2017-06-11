@@ -1,10 +1,8 @@
 package piglet.View;
 
 import piglet.Model.Model;
-import piglet.Model.User;
 
 import javax.swing.*;
-import java.util.Collection;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
