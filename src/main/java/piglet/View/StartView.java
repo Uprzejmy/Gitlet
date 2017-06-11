@@ -11,6 +11,7 @@ public class StartView implements IView{
     private JPanel mainPanel;
     private JLabel title;
     private JButton usersViewButton;
+    private JButton groupsViewButton;
 
     private JFrame frame;
 
@@ -27,5 +28,8 @@ public class StartView implements IView{
     {
         return usersViewButton;
     }
-
+    public JButton getGroupsViewButton()
+    {
+        return groupsViewButton;
+    }
 }

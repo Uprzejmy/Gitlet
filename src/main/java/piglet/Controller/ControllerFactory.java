@@ -13,6 +13,7 @@ public class ControllerFactory {
         {
             case START: return new StartController();
             case USERS: return new UsersController();
+            case GROUPS: return new GroupsController();
             default: return new StartController();
         }
     }

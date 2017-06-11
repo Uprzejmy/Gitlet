@@ -3,8 +3,6 @@ package piglet.Controller;
 import piglet.Model.Model;
 import piglet.View.UsersView;
 
-import java.util.Collection;
-
 /**
  * Created by Uprzejmy on 11.06.2017.
  */

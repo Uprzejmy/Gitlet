@@ -5,5 +5,6 @@ package piglet.Controller;
  */
 public enum EController {
     START,
-    USERS
+    USERS,
+    GROUPS
 }

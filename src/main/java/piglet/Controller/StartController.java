@@ -19,16 +19,17 @@ public class StartController implements IController{
         configureListeners();
     }
 
-    private void switchViewToUsers()
+    private void switchWindow(EController eController)
     {
         //todo proper view dispose
         this.view = null;
-        ControllerManager.getInstance().changeController(EController.USERS);
+        ControllerManager.getInstance().changeController(eController);
     }
 
     private void configureListeners()
     {
-        view.getUsersViewButton().addActionListener(e -> switchViewToUsers());
+        view.getUsersViewButton().addActionListener(e -> switchWindow(EController.USERS));
+        view.getGroupsViewButton().addActionListener(e -> switchWindow(EController.GROUPS));
     }
 
 }
