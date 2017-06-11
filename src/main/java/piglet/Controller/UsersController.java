@@ -17,6 +17,6 @@ public class UsersController implements IController{
 
         view.update();
 
-        model.addUser("test", "test");
+        // model.addUser("test", "test");
     }
 }
