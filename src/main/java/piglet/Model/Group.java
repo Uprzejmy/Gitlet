@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class Group {
+public class Group implements IPermissionTarget {
 
     private String name;
     private List<User> users = new ArrayList<>();

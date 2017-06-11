@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class User {
+public class User implements IPermissionTarget{
 
     private String username;
     private String publicKey;
