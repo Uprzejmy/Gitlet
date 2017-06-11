@@ -1,4 +1,4 @@
-package piglet.Model;
+package piglet.Model.Entity;
 
 import java.util.ArrayList;
 import java.util.Collection;

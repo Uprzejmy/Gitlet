@@ -1,5 +1,7 @@
 package piglet.Model;
 
+import piglet.Model.Entity.Group;
+import piglet.Model.Entity.User;
 import piglet.View.IObserver;
 
 import java.util.ArrayList;
