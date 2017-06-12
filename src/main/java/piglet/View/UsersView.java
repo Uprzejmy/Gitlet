@@ -1,31 +1,30 @@
 package piglet.View;
 
 import piglet.Model.IUsersModel;
+import piglet.Model.Model;
 
 import javax.swing.*;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class UsersView implements IView, IObserver {
+public class UsersView implements IView, IObserver, ITabbable {
     private JLabel title;
     private JList usersList;
     private JScrollPane scrolledUsersList;
     private JPanel mainPanel;
 
-    private JFrame frame;
     private IUsersModel model;
 
-    public UsersView(IUsersModel model)
+    public UsersView()
     {
-        this.model = model;
+        this.model = Model.getInstance().getUsersModel();
         this.model.registerUsersModelObserver(this);
+    }
 
-        frame = new JFrame("users view");
-        frame.setContentPane(mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    public JPanel getMainPanel()
+    {
+        return mainPanel;
     }
 
     public void update()

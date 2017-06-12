@@ -22,6 +22,11 @@ public class StartView implements IView{
         frame.setVisible(true);
     }
 
+    public JPanel getMainPanel()
+    {
+        return mainPanel;
+    }
+
     public JButton getUsersViewButton()
     {
         return usersViewButton;

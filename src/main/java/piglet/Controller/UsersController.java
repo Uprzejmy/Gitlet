@@ -13,9 +13,9 @@ public class UsersController implements IController{
     public UsersController()
     {
         model = Model.getInstance();
-        view = new UsersView(model.getUsersModel());
+        //view = new UsersView(model.getUsersModel());
 
-        view.update();
+        //view.update();
 
         // model.addUser("test", "test");
     }

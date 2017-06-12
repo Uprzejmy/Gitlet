@@ -1,31 +1,30 @@
 package piglet.View;
 
 import piglet.Model.IGroupsModel;
+import piglet.Model.Model;
 
 import javax.swing.*;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class GroupsView implements IView, IObserver {
+public class GroupsView implements IView, IObserver, ITabbable {
     private JLabel title;
     private JList groupsList;
     private JScrollPane scrolledGroupsList;
     private JPanel mainPanel;
 
-    private JFrame frame;
     private IGroupsModel model;
 
-    public GroupsView(IGroupsModel model)
+    public GroupsView()
     {
-        this.model = model;
+        this.model = Model.getInstance().getGroupsModel();
         this.model.registerGroupsModelObserver(this);
+    }
 
-        frame = new JFrame("groups view");
-        frame.setContentPane(mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    public JPanel getMainPanel()
+    {
+        return mainPanel;
     }
 
     public void update()
