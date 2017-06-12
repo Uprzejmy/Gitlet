@@ -1,6 +1,6 @@
 package piglet.View;
 
-import piglet.Model.IFacadeModel;
+import piglet.Model.IUsersModel;
 
 import javax.swing.*;
 
@@ -14,9 +14,9 @@ public class UsersView implements IView, IObserver {
     private JPanel mainPanel;
 
     private JFrame frame;
-    private IFacadeModel model;
+    private IUsersModel model;
 
-    public UsersView(IFacadeModel model)
+    public UsersView(IUsersModel model)
     {
         this.model = model;
         this.model.registerUsersModelObserver(this);

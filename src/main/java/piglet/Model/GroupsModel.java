@@ -10,12 +10,12 @@ import java.util.Collection;
 /**
  * Created by Uprzejmy on 12.06.2017.
  */
-public class GroupModel {
+public class GroupsModel implements IGroupsModel{
 
     private Collection<Group> groups;
     Collection<IObserver> groupsModelObservers;
 
-    public GroupModel()
+    public GroupsModel()
     {
         groups = new ArrayList<>();
         groupsModelObservers = new ArrayList<>();

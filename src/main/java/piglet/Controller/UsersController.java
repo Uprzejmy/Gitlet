@@ -13,7 +13,7 @@ public class UsersController implements IController{
     public UsersController()
     {
         model = Model.getInstance();
-        view = new UsersView(model);
+        view = new UsersView(model.getUsersModel());
 
         view.update();
 

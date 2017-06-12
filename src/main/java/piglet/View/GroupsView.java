@@ -1,6 +1,6 @@
 package piglet.View;
 
-import piglet.Model.IFacadeModel;
+import piglet.Model.IGroupsModel;
 
 import javax.swing.*;
 
@@ -14,12 +14,12 @@ public class GroupsView implements IView, IObserver {
     private JPanel mainPanel;
 
     private JFrame frame;
-    private IFacadeModel model;
+    private IGroupsModel model;
 
-    public GroupsView(IFacadeModel model)
+    public GroupsView(IGroupsModel model)
     {
         this.model = model;
-        this.model.registerUsersModelObserver(this);
+        this.model.registerGroupsModelObserver(this);
 
         frame = new JFrame("groups view");
         frame.setContentPane(mainPanel);

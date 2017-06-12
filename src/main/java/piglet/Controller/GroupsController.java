@@ -13,7 +13,7 @@ public class GroupsController implements IController {
     public GroupsController()
     {
         model = Model.getInstance();
-        view = new GroupsView(model);
+        view = new GroupsView(model.getGroupsModel());
 
         view.update();
     }

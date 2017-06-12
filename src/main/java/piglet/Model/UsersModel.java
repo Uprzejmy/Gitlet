@@ -9,12 +9,12 @@ import java.util.Collection;
 /**
  * Created by Uprzejmy on 12.06.2017.
  */
-public class UserModel {
+public class UsersModel implements IUsersModel {
 
     private Collection<User> users;
     Collection<IObserver> usersModelObservers;
 
-    public UserModel()
+    public UsersModel()
     {
         users = new ArrayList<>();
         usersModelObservers = new ArrayList<>();
