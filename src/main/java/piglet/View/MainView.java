@@ -12,6 +12,7 @@ public class MainView {
 
     UsersView usersView;
     GroupsView groupsView;
+    RepositoriesView repositoriesView;
 
     private JPanel mainPanel;
     private JTabbedPane tabbedPane;
@@ -22,9 +23,11 @@ public class MainView {
     {
         usersView = new UsersView();
         groupsView = new GroupsView();
+        repositoriesView = new RepositoriesView();
 
         tabbedPane.addTab("users", usersView.getMainPanel());
         tabbedPane.addTab("groups", groupsView.getMainPanel());
+        tabbedPane.addTab("repositories", repositoriesView.getMainPanel());
 
         frame = new JFrame("admin");
         frame.setContentPane(mainPanel);
