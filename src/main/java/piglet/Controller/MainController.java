@@ -14,5 +14,7 @@ public class MainController implements IController {
     {
         model = Model.getInstance();
         mainView = new MainView();
+
+        model.initialize();
     }
 }

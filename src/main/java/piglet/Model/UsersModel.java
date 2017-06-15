@@ -20,6 +20,11 @@ public class UsersModel implements IUsersModel {
         usersModelObservers = new ArrayList<>();
     }
 
+    public void initialize()
+    {
+        notifyUsersModelObservers();
+    }
+
     public Collection<User> getUsers()
     {
         return users;
