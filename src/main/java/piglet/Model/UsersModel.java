@@ -1,22 +1,22 @@
 package piglet.Model;
 
 import piglet.Model.Entity.User;
+import piglet.Model.Utils.UserComparator;
 import piglet.View.IObserver;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Created by Uprzejmy on 12.06.2017.
  */
 public class UsersModel implements IUsersModel {
 
-    private Collection<User> users;
+    private SortedSet<User> users;
     Collection<IObserver> usersModelObservers;
 
     public UsersModel()
     {
-        users = new ArrayList<>();
+        users = new TreeSet<>(new UserComparator());
         usersModelObservers = new ArrayList<>();
     }
 

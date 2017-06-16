@@ -1,24 +1,24 @@
 package piglet.Model.Entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import piglet.Model.Utils.GroupComparator;
+
+import java.util.*;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class User implements IPermissionTarget{
+public class User implements IPermissionTarget, Comparable<User> {
 
     private String username;
     private String publicKey;
-    private List<Group> groups;
+    private Collection<Group> groups;
 
     public User(String username, String publicKey)
     {
         this.username = username;
         this.publicKey = publicKey;
 
-        groups = new ArrayList<>();
+        groups = new TreeSet<>(new GroupComparator());
     }
 
     public String getPublicKey()
@@ -62,4 +62,9 @@ public class User implements IPermissionTarget{
         return username;
     }
 
+    @Override
+    public int compareTo(User user)
+    {
+        return username.compareTo(user.getUsername());
+    }
 }

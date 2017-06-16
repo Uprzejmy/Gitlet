@@ -1,22 +1,25 @@
 package piglet.Model;
 
 import piglet.Model.Entity.Repository;
+import piglet.Model.Utils.RepositoryComparator;
 import piglet.View.IObserver;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by Uprzejmy on 15.06.2017.
  */
 public class RepositoriesModel implements IRepositoriesModel {
 
-    private Collection<Repository> repositories;
+    private SortedSet<Repository> repositories;
     Collection<IObserver> repositoriesModelObservers;
 
     public RepositoriesModel()
     {
-        repositories = new ArrayList<>();
+        repositories = new TreeSet<>(new RepositoryComparator());
         repositoriesModelObservers = new ArrayList<>();
     }
 

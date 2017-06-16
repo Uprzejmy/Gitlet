@@ -2,22 +2,26 @@ package piglet.Model;
 
 
 import piglet.Model.Entity.Group;
+import piglet.Model.Utils.GroupComparator;
 import piglet.View.IObserver;
+import sun.reflect.generics.tree.Tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by Uprzejmy on 12.06.2017.
  */
 public class GroupsModel implements IGroupsModel{
 
-    private Collection<Group> groups;
+    private SortedSet<Group> groups;
     Collection<IObserver> groupsModelObservers;
 
     public GroupsModel()
     {
-        groups = new ArrayList<>();
+        groups = new TreeSet<>(new GroupComparator());
         groupsModelObservers = new ArrayList<>();
 
     }

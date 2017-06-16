@@ -86,7 +86,7 @@ public class UsersView implements IView, IObserver, ITabbable {
 
     private void createUserAction()
     {
-        //model.addUser();
+        model.addUser(usernameField.getText(),publicKeyField.getText());
 
         switchActionPanelToUserDetails();
     }
