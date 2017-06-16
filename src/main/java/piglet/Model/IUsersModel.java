@@ -11,4 +11,5 @@ import java.util.Collection;
 public interface IUsersModel {
     Collection<User> getUsers();
     void registerUsersModelObserver(IObserver observer);
+    void addUser(String username, String publicKey);
 }

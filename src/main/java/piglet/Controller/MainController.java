@@ -15,6 +15,19 @@ public class MainController implements IController {
         model = Model.getInstance();
         mainView = new MainView();
 
+        configureListeners();
+
         model.initialize();
+    }
+
+
+    public void createUserAction()
+    {
+
+    }
+
+    private void configureListeners()
+    {
+        mainView.getUsersView().getCreateUserButton().addActionListener(e -> createUserAction());
     }
 }

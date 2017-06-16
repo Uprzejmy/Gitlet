@@ -35,4 +35,22 @@ public class MainView {
         frame.pack();
         frame.setVisible(true);
     }
+
+
+    public UsersView getUsersView()
+    {
+        return usersView;
+    }
+
+    public GroupsView getGroupsView()
+    {
+        return groupsView;
+    }
+
+    public RepositoriesView getRepositoriesView()
+    {
+        return repositoriesView;
+    }
+
+
 }

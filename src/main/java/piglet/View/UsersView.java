@@ -13,25 +13,40 @@ public class UsersView implements IView, IObserver, ITabbable {
     private JList usersList;
     private JScrollPane scrolledUsersList;
     private JPanel mainPanel;
-    private JPanel userDetails;
+    private JPanel userDetailsPanel;
     private JLabel username;
     private JList groupsList;
+    private JButton addUserButton;
+    private JPanel actionPanel;
+    private JPanel addUserPanel;
+    private JTextField usernameField;
+    private JTextArea publicKeyField;
+    private JScrollPane scrolledPublicKeyField;
+    private JButton createUserButton;
 
     private IUsersModel model;
     private User selectedUser;
 
     public UsersView()
     {
-        this.model = Model.getInstance().getUsersModel();
-        this.model.registerUsersModelObserver(this);
+        model = Model.getInstance().getUsersModel();
+        model.registerUsersModelObserver(this);
+
+        //actionPanel = userDetailsPanel;
+        addUserPanel.setVisible(false);
+        userDetailsPanel.setVisible(true);
 
         usersList.addListSelectionListener(e -> updateUserDetails());
+        addUserButton.addActionListener(e -> switchActionPanelToUserCreate());
+        createUserButton.addActionListener(e -> createUserAction());
     }
 
     public JPanel getMainPanel()
     {
         return mainPanel;
     }
+
+    public JButton getCreateUserButton() { return createUserButton; }
 
     public void update()
     {
@@ -53,7 +68,27 @@ public class UsersView implements IView, IObserver, ITabbable {
         {
             username.setText("user not selected");
         }
+
+        switchActionPanelToUserDetails();
     }
 
+    private void switchActionPanelToUserCreate()
+    {
+        userDetailsPanel.setVisible(false);
+        addUserPanel.setVisible(true);
+    }
+
+    private void switchActionPanelToUserDetails()
+    {
+        userDetailsPanel.setVisible(true);
+        addUserPanel.setVisible(false);
+    }
+
+    private void createUserAction()
+    {
+        //model.addUser();
+
+        switchActionPanelToUserDetails();
+    }
 
 }
