@@ -38,12 +38,16 @@ public class RepositoryPermission {
 
     public boolean hasTarget(IPermissionTarget target)
     {
-        if(this.target.equals(target))
-        {
-            return true;
-        }
+        return this.target.equals(target);
+    }
 
-        return false;
+    @Override
+    public String toString()
+    {
+        return "" +
+                "target: " + target + " " +
+                "permission: " + permission
+                ;
     }
 
 }

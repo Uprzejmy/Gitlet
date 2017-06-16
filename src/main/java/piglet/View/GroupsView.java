@@ -1,35 +1,57 @@
 package piglet.View;
 
+import piglet.Model.Entity.Group;
 import piglet.Model.IGroupsModel;
+import piglet.Model.Model;
 
 import javax.swing.*;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class GroupsView implements IView, IObserver {
-    private JLabel title;
+public class GroupsView implements IView, IObserver, ITabbable {
     private JList groupsList;
     private JScrollPane scrolledGroupsList;
     private JPanel mainPanel;
+    private JPanel groupDetails;
+    private JLabel groupname;
+    private JList usersList;
 
-    private JFrame frame;
     private IGroupsModel model;
+    private Group selectedGroup;
 
-    public GroupsView(IGroupsModel model)
+    public GroupsView()
     {
-        this.model = model;
+        this.model = Model.getInstance().getGroupsModel();
         this.model.registerGroupsModelObserver(this);
 
-        frame = new JFrame("groups view");
-        frame.setContentPane(mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        groupsList.addListSelectionListener(e -> updateGroupDetails());
+    }
+
+    public JPanel getMainPanel()
+    {
+        return mainPanel;
     }
 
     public void update()
     {
         groupsList.setListData(model.getGroups().toArray());
+
+        updateGroupDetails();
+    }
+
+    public void updateGroupDetails()
+    {
+        try
+        {
+            selectedGroup = (Group) groupsList.getSelectedValue();
+
+            groupname.setText(selectedGroup.getName());
+            usersList.setListData(selectedGroup.getUsers().toArray());
+        }
+        catch(NullPointerException e)
+        {
+            groupname.setText("group not selected");
+        }
     }
 }

@@ -22,6 +22,11 @@ public class GroupsModel implements IGroupsModel{
 
     }
 
+    public void initialize()
+    {
+        notifyGroupsModelObservers();
+    }
+
     public Collection<Group> getGroups()
     {
         return groups;

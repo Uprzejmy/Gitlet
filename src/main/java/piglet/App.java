@@ -1,11 +1,11 @@
 package piglet;
 
-import piglet.Controller.StartController;
+import piglet.Controller.MainController;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        StartController controller = new StartController();
+        MainController controller = new MainController();
     }
 }

@@ -42,6 +42,6 @@ public class Group implements IPermissionTarget {
     @Override
     public String toString()
     {
-        return name + " users: " + users.size();
+        return name;
     }
 }

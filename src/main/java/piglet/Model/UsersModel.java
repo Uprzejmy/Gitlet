@@ -18,7 +18,11 @@ public class UsersModel implements IUsersModel {
     {
         users = new ArrayList<>();
         usersModelObservers = new ArrayList<>();
+    }
 
+    public void initialize()
+    {
+        notifyUsersModelObservers();
     }
 
     public Collection<User> getUsers()
