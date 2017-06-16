@@ -11,4 +11,5 @@ import java.util.Collection;
 public interface IGroupsModel {
     void registerGroupsModelObserver(IObserver observer);
     Collection<Group> getGroups();
+    void addGroup(String groupName);
 }

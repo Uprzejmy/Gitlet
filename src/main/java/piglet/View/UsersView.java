@@ -32,7 +32,6 @@ public class UsersView implements IView, IObserver, ITabbable {
         model = Model.getInstance().getUsersModel();
         model.registerUsersModelObserver(this);
 
-        //actionPanel = userDetailsPanel;
         addUserPanel.setVisible(false);
         userDetailsPanel.setVisible(true);
 
@@ -45,8 +44,6 @@ public class UsersView implements IView, IObserver, ITabbable {
     {
         return mainPanel;
     }
-
-    public JButton getCreateUserButton() { return createUserButton; }
 
     public void update()
     {
