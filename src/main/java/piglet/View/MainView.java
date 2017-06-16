@@ -31,8 +31,10 @@ public class MainView {
 
         frame = new JFrame("admin");
         frame.setContentPane(mainPanel);
+        frame.setMinimumSize(new Dimension(550,350));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setLocationRelativeTo(null); //have to be set after frame.pack(). Make the window appear in the main monitor center
         frame.setVisible(true);
     }
 
