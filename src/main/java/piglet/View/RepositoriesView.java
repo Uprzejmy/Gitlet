@@ -13,9 +13,14 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
     private JPanel mainPanel;
     private JList repositoriesList;
     private JScrollPane scrolledRepositoriesPane;
-    private JPanel repositoryDetails;
+    private JPanel repositoryDetailsPanel;
     private JList permissions;
     private JLabel repositoryName;
+    private JButton addRepositoryButton;
+    private JPanel actionPanel;
+    private JPanel addRepositoryPanel;
+    private JTextField repositoryNameField;
+    private JButton createRepositoryButton;
 
     private IRepositoriesModel model;
     private Repository selectedRepository;
@@ -25,7 +30,12 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         this.model = Model.getInstance().getRepositoriesModel();
         this.model.registerRepositoriesModelObserver(this);
 
+        addRepositoryPanel.setVisible(false);
+        repositoryDetailsPanel.setVisible(true);
+
         repositoriesList.addListSelectionListener(e -> updateRepositoryDetails());
+        addRepositoryButton.addActionListener(e -> switchActionPanelToRepositoryCreate());
+        createRepositoryButton.addActionListener(e -> createRepositoryAction());
     }
 
     public JPanel getMainPanel()
@@ -53,5 +63,26 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         {
             repositoryName.setText("repository not selected");
         }
+
+        switchActionPanelToRepositoryDetails();
+    }
+
+    private void switchActionPanelToRepositoryCreate()
+    {
+        repositoryDetailsPanel.setVisible(false);
+        addRepositoryPanel.setVisible(true);
+    }
+
+    private void switchActionPanelToRepositoryDetails()
+    {
+        repositoryDetailsPanel.setVisible(true);
+        addRepositoryPanel.setVisible(false);
+    }
+
+    private void createRepositoryAction()
+    {
+        model.addRepository(repositoryNameField.getText());
+
+        switchActionPanelToRepositoryDetails();
     }
 }

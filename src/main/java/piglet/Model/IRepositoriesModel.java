@@ -11,4 +11,5 @@ import java.util.Collection;
 public interface IRepositoriesModel {
     Collection<Repository> getRepositories();
     void registerRepositoriesModelObserver(IObserver observer);
+    void addRepository(String repositoryName);
 }
