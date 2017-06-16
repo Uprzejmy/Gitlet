@@ -1,6 +1,6 @@
 package piglet.Model;
 
-import piglet.Model.Entity.GitRepository;
+import piglet.Model.Entity.Repository;
 import piglet.View.IObserver;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public class RepositoriesModel implements IRepositoriesModel {
 
-    private Collection<GitRepository> repositories;
+    private Collection<Repository> repositories;
     Collection<IObserver> repositoriesModelObservers;
 
     public RepositoriesModel()
@@ -25,14 +25,14 @@ public class RepositoriesModel implements IRepositoriesModel {
         notifyRepositoriesModelObservers();
     }
 
-    public Collection<GitRepository> getRepositories()
+    public Collection<Repository> getRepositories()
     {
         return repositories;
     }
 
     public void addRepository(String name)
     {
-        repositories.add(new GitRepository(name));
+        repositories.add(new Repository(name));
 
         notifyRepositoriesModelObservers();
     }

@@ -1,22 +1,25 @@
 package piglet.Model.Entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import piglet.Model.Utils.RepositoryPermissionComparator;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.*;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class GitRepository {
+public class Repository {
     private String name;
-    private List<RepositoryPermission> repositoryPermissions;
+    //Tree Set is important since we will always want to sort by the strongest permission
+    private TreeSet<RepositoryPermission> repositoryPermissions;
 
-    private GitRepository(){}
+    private Repository(){}
 
-    public GitRepository(String name)
+    public Repository(String name)
     {
         this.name = name;
 
-        repositoryPermissions = new ArrayList<>();
+        repositoryPermissions = new TreeSet<>(new RepositoryPermissionComparator());
     }
 
     public String getName()
@@ -29,7 +32,7 @@ public class GitRepository {
         this.name = name;
     }
 
-    public List<RepositoryPermission> getRepositoryPermissions()
+    public TreeSet<RepositoryPermission> getRepositoryPermissions()
     {
         return repositoryPermissions;
     }
@@ -42,5 +45,11 @@ public class GitRepository {
     public void removeRepositoryPermission(IPermissionTarget permissionTarget)
     {
         repositoryPermissions.removeIf(repositoryPermission -> repositoryPermission.hasTarget(permissionTarget));
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }
