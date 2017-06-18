@@ -27,6 +27,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
     private JComboBox addRepositoryPermissionTargetField;
     private JComboBox addRepositoryPermissionAccessField;
     private JButton addRepositoryPermissionButton;
+    private JButton removeSelectedPermissionButton;
 
     private IRepositoriesModel repositoriesModel;
     private IUsersModel usersModel;
@@ -49,6 +50,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         addRepositoryButton.addActionListener(e -> switchActionPanelToRepositoryCreate());
         createRepositoryButton.addActionListener(e -> createRepositoryAction());
         addRepositoryPermissionButton.addActionListener(e -> addRepositoryPermissionAction());
+        removeSelectedPermissionButton.addActionListener(e -> removeSelectedPermissionAction());
     }
 
 
@@ -149,6 +151,18 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         for(EPermission ep : EPermission.values())
         {
             addRepositoryPermissionAccessField.addItem(ep);
+        }
+    }
+
+    private void removeSelectedPermissionAction()
+    {
+        try
+        {
+            repositoriesModel.removeRepositoryPermission(selectedRepository, (RepositoryPermission) permissionsList.getSelectedValue());
+        }
+        catch(NullPointerException e)
+        {
+            //todo implement some notification for the user
         }
     }
 }

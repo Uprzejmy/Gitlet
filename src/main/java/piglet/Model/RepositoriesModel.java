@@ -3,6 +3,7 @@ package piglet.Model;
 import piglet.Model.Entity.EPermission;
 import piglet.Model.Entity.IPermissionTarget;
 import piglet.Model.Entity.Repository;
+import piglet.Model.Entity.RepositoryPermission;
 import piglet.Model.Utils.RepositoryComparator;
 import piglet.View.IObserver;
 
@@ -45,6 +46,13 @@ public class RepositoriesModel implements IRepositoriesModel {
     public void addRepositoryPermission(Repository repository, IPermissionTarget target, EPermission permission)
     {
         repository.addRepositoryPermission(target,permission);
+
+        notifyRepositoriesModelObservers();
+    }
+
+    public void removeRepositoryPermission(Repository repository, RepositoryPermission repositoryPermission)
+    {
+        repository.removeRepositoryPermission(repositoryPermission.getTarget());
 
         notifyRepositoriesModelObservers();
     }
