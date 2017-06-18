@@ -90,4 +90,10 @@ public class User implements IPermissionTarget {
     {
         return 1;
     }
+
+    @Override
+    public boolean contains(User user)
+    {
+        return this == user ? true : false;
+    }
 }

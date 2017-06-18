@@ -77,4 +77,18 @@ public class Group implements IPermissionTarget, Comparable<IPermissionTarget>{
     {
         return 2;
     }
+
+    @Override
+    public boolean contains(User user)
+    {
+        for(User u : users)
+        {
+            if(u == user)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

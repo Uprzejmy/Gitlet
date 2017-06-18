@@ -6,4 +6,5 @@ package piglet.Model.Entity;
 public interface IPermissionTarget extends Comparable<IPermissionTarget> {
     int getImportance();
     int compareTo(IPermissionTarget target);
+    boolean contains(User user);
 }

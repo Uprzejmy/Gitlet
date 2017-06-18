@@ -38,7 +38,7 @@ public class RepositoryPermission {
 
     public boolean hasTarget(IPermissionTarget target)
     {
-        return this.target.equals(target);
+        return this.target == target;
     }
 
     @Override

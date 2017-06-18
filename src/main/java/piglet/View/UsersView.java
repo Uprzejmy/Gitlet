@@ -1,10 +1,18 @@
 package piglet.View;
 
+import piglet.Model.Entity.Repository;
+import piglet.Model.Entity.RepositoryPermission;
 import piglet.Model.Entity.User;
+import piglet.Model.IRepositoriesModel;
 import piglet.Model.IUsersModel;
 import piglet.Model.Model;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Uprzejmy on 11.06.2017.
@@ -24,14 +32,21 @@ public class UsersView implements IView, IObserver, ITabbable {
     private JScrollPane scrolledPublicKeyField;
     private JButton createUserButton;
     private JScrollPane scrolledGroupsList;
+    private JLabel accessibleRepositoriesLabel;
+    private JTable accessibleRepositoriesTable;
+    private JScrollPane scrolledAccessibleRepositoriesTable;
 
-    private IUsersModel model;
+    private IUsersModel usersModel;
+    private IRepositoriesModel repositoriesModel;
+
     private User selectedUser;
 
     public UsersView()
     {
-        model = Model.getInstance().getUsersModel();
-        model.registerUsersModelObserver(this);
+        usersModel = Model.getInstance().getUsersModel();
+        repositoriesModel = Model.getInstance().getRepositoriesModel();
+
+        usersModel.registerUsersModelObserver(this);
 
         addUserPanel.setVisible(false);
         userDetailsPanel.setVisible(true);
@@ -48,7 +63,7 @@ public class UsersView implements IView, IObserver, ITabbable {
 
     public void update()
     {
-        usersList.setListData(model.getUsers().toArray());
+        usersList.setListData(usersModel.getUsers().toArray());
 
         updateUserDetails();
     }
@@ -61,6 +76,8 @@ public class UsersView implements IView, IObserver, ITabbable {
 
             username.setText(selectedUser.getUsername());
             groupsList.setListData(selectedUser.getGroups().toArray());
+
+            populateAccessibleRepositoriesTable();
         }
         catch(NullPointerException e)
         {
@@ -87,9 +104,21 @@ public class UsersView implements IView, IObserver, ITabbable {
 
     private void createUserAction()
     {
-        model.addUser(usernameField.getText(),publicKeyField.getText());
+        usersModel.addUser(usernameField.getText(),publicKeyField.getText());
 
         switchActionPanelToUserDetails();
+    }
+
+    private void populateAccessibleRepositoriesTable()
+    {
+        Map<Repository,RepositoryPermission> permissionMap = repositoriesModel.getRepositories(selectedUser);
+
+        String[] labels = {"repository", "permission", "source"};
+        DefaultTableModel tableModel = new DefaultTableModel(labels,0);
+
+        permissionMap.forEach((repository,repositoryPermission) -> tableModel.addRow(new Object[] { repository.getName(), repositoryPermission.getPermission(), repositoryPermission.getTarget()}));
+
+        accessibleRepositoriesTable.setModel(tableModel);
     }
 
 }

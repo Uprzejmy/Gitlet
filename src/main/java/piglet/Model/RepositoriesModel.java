@@ -1,16 +1,10 @@
 package piglet.Model;
 
-import piglet.Model.Entity.EPermission;
-import piglet.Model.Entity.IPermissionTarget;
-import piglet.Model.Entity.Repository;
-import piglet.Model.Entity.RepositoryPermission;
+import piglet.Model.Entity.*;
 import piglet.Model.Utils.RepositoryComparator;
 import piglet.View.IObserver;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by Uprzejmy on 15.06.2017.
@@ -55,6 +49,24 @@ public class RepositoriesModel implements IRepositoriesModel {
         repository.removeRepositoryPermission(repositoryPermission.getTarget());
 
         notifyRepositoriesModelObservers();
+    }
+
+    public Map<Repository,RepositoryPermission> getRepositories(User user)
+    {
+        Map<Repository,RepositoryPermission> accessibleRepositories = new HashMap<>();
+
+        for(Repository repository : repositories)
+        {
+            for(RepositoryPermission repositoryPermission : repository.getRepositoryPermissions())
+            {
+                if(repositoryPermission.getTarget().contains(user))
+                {
+                    accessibleRepositories.put(repository, repositoryPermission);
+                }
+            }
+        }
+
+        return accessibleRepositories;
     }
 
     public void registerRepositoriesModelObserver(IObserver observer)
