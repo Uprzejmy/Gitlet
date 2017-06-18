@@ -16,7 +16,8 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
     private JList repositoriesList;
     private JScrollPane scrolledRepositoriesPane;
     private JPanel repositoryDetailsPanel;
-    private JList permissions;
+    private JScrollPane scrolledPermissionsList;
+    private JList permissionsList;
     private JLabel repositoryName;
     private JButton addRepositoryButton;
     private JPanel actionPanel;
@@ -74,7 +75,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
             selectedRepository = (Repository) repositoriesList.getSelectedValue();
 
             repositoryName.setText(selectedRepository.getName());
-            permissions.setListData(selectedRepository.getRepositoryPermissions().toArray());
+            permissionsList.setListData(selectedRepository.getRepositoryPermissions().toArray());
 
             populatePermissionsAccessComboBox();
             populatePermissionsTargetComboBox();
