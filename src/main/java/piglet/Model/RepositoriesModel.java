@@ -1,5 +1,7 @@
 package piglet.Model;
 
+import piglet.Model.Entity.EPermission;
+import piglet.Model.Entity.IPermissionTarget;
 import piglet.Model.Entity.Repository;
 import piglet.Model.Utils.RepositoryComparator;
 import piglet.View.IObserver;
@@ -36,6 +38,13 @@ public class RepositoriesModel implements IRepositoriesModel {
     public void addRepository(String name)
     {
         repositories.add(new Repository(name));
+
+        notifyRepositoriesModelObservers();
+    }
+
+    public void addRepositoryPermission(Repository repository, IPermissionTarget target, EPermission permission)
+    {
+        repository.addRepositoryPermission(target,permission);
 
         notifyRepositoriesModelObservers();
     }

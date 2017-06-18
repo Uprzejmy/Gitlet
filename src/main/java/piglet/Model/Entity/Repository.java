@@ -19,7 +19,7 @@ public class Repository {
     {
         this.name = name;
 
-        repositoryPermissions = new TreeSet<>(new RepositoryPermissionComparator());
+        repositoryPermissions = new TreeSet<>(new RepositoryPermissionComparator().reversed());
     }
 
     public String getName()

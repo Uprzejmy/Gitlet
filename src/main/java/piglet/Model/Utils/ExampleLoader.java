@@ -42,11 +42,11 @@ public class ExampleLoader {
 
                 if(Math.random() < 0.1)
                 {
-                    repository.addRepositoryPermission(group, EPermission.READWRITE);
+                    repository.addRepositoryPermission(group, EPermission.R);
                 }
                 else if(Math.random() < 0.3)
                 {
-                    repository.addRepositoryPermission(group, EPermission.READ);
+                    repository.addRepositoryPermission(group, EPermission.RW);
                 }
             }
 
@@ -54,13 +54,13 @@ public class ExampleLoader {
             {
                 if(Math.random() < 0.01)
                 {
-                    repository.addRepositoryPermission(user, EPermission.READWRITE);
+                    repository.addRepositoryPermission(user, EPermission.ADMIN);
                 }
             }
 
             //adding super user to the repo
             int superUserIndex = (int) (Math.random() * model.getUsersModel().getUsers().size());
-            repository.addRepositoryPermission((User)model.getUsersModel().getUsers().toArray()[superUserIndex],EPermission.READWRITEADMIN);
+            repository.addRepositoryPermission((User)model.getUsersModel().getUsers().toArray()[superUserIndex],EPermission.ADMIN);
 
             model.getRepositoriesModel().getRepositories().add(repository);
         }

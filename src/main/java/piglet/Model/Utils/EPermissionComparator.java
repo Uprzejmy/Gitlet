@@ -13,15 +13,15 @@ class EPermissionComparator implements Comparator<EPermission>
     {
         switch (o)
         {
-            case READ: return 0;
-            case READWRITE: return 1;
-            case READWRITEADMIN: return 2;
+            case R: return 0;
+            case RW: return 1;
+            case ADMIN: return 2;
             default: return 0;
         }
     }
 
     public int compare(EPermission o1, EPermission o2)
     {
-        return order(o2) - order(o1);
+        return order(o1) - order(o2);
     }
 }

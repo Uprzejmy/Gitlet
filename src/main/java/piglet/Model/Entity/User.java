@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class User implements IPermissionTarget, Comparable<User> {
+public class User implements IPermissionTarget {
 
     private String username;
     private String publicKey;
@@ -63,8 +63,21 @@ public class User implements IPermissionTarget, Comparable<User> {
     }
 
     @Override
-    public int compareTo(User user)
+    public int compareTo(IPermissionTarget target)
     {
-        return username.compareTo(user.getUsername());
+        int targetTypeOrder = this.getImportance() - target.getImportance();
+
+        if(targetTypeOrder != 0)
+        {
+            return targetTypeOrder;
+        }
+
+        return this.equals(target) ? 0 : 1;
+    }
+
+    @Override
+    public int getImportance()
+    {
+        return 1;
     }
 }

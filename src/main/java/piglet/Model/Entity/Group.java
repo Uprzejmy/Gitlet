@@ -10,7 +10,7 @@ import java.util.TreeSet;
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class Group implements IPermissionTarget, Comparable<Group> {
+public class Group implements IPermissionTarget, Comparable<IPermissionTarget>{
 
     private String name;
     private SortedSet<User> users;
@@ -50,8 +50,21 @@ public class Group implements IPermissionTarget, Comparable<Group> {
     }
 
     @Override
-    public int compareTo(Group group)
+    public int compareTo(IPermissionTarget target)
     {
-        return name.compareTo(group.getName());
+        int targetTypeOrder = this.getImportance() - target.getImportance();
+
+        if(targetTypeOrder != 0)
+        {
+            return targetTypeOrder;
+        }
+
+        return this.equals(target) ? 0 : 1;
+    }
+
+    @Override
+    public int getImportance()
+    {
+        return 2;
     }
 }
