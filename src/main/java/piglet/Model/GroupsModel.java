@@ -2,6 +2,7 @@ package piglet.Model;
 
 
 import piglet.Model.Entity.Group;
+import piglet.Model.Entity.User;
 import piglet.Model.Utils.GroupComparator;
 import piglet.View.IObserver;
 import sun.reflect.generics.tree.Tree;
@@ -39,6 +40,13 @@ public class GroupsModel implements IGroupsModel{
     public void addGroup(String name)
     {
         groups.add(new Group(name));
+
+        notifyGroupsModelObservers();
+    }
+
+    public void addUserToGroup(Group group, User user)
+    {
+        group.addUser(user);
 
         notifyGroupsModelObservers();
     }

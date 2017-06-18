@@ -1,7 +1,10 @@
 package piglet.View;
 
 import piglet.Model.Entity.Group;
+import piglet.Model.Entity.RepositoryPermission;
+import piglet.Model.Entity.User;
 import piglet.Model.IGroupsModel;
+import piglet.Model.IUsersModel;
 import piglet.Model.Model;
 
 import javax.swing.*;
@@ -21,14 +24,20 @@ public class GroupsView implements IView, IObserver, ITabbable {
     private JTextField groupNameField;
     private JButton createGroupButton;
     private JButton addGroupButton;
+    private JComboBox addUserField;
+    private JButton addUserButton;
 
-    private IGroupsModel model;
+    private IGroupsModel groupsModel;
+    private IUsersModel usersModel;
+
     private Group selectedGroup;
 
     public GroupsView()
     {
-        this.model = Model.getInstance().getGroupsModel();
-        this.model.registerGroupsModelObserver(this);
+        this.groupsModel = Model.getInstance().getGroupsModel();
+        this.usersModel = Model.getInstance().getUsersModel();
+
+        this.groupsModel.registerGroupsModelObserver(this);
 
         addGroupPanel.setVisible(false);
         groupDetailsPanel.setVisible(true);
@@ -36,6 +45,7 @@ public class GroupsView implements IView, IObserver, ITabbable {
         groupsList.addListSelectionListener(e -> updateGroupDetails());
         addGroupButton.addActionListener(e -> switchActionPanelToGroupCreate());
         createGroupButton.addActionListener(e -> createGroupAction());
+        addUserButton.addActionListener(e -> addUserAction());
     }
 
     public JPanel getMainPanel()
@@ -45,7 +55,11 @@ public class GroupsView implements IView, IObserver, ITabbable {
 
     public void update()
     {
-        groupsList.setListData(model.getGroups().toArray());
+        Group oldSelectedGroup = selectedGroup;
+
+        groupsList.setListData(groupsModel.getGroups().toArray());
+
+        groupsList.setSelectedValue(oldSelectedGroup,true);
 
         updateGroupDetails();
     }
@@ -58,6 +72,8 @@ public class GroupsView implements IView, IObserver, ITabbable {
 
             groupname.setText(selectedGroup.getName());
             usersList.setListData(selectedGroup.getUsers().toArray());
+
+            populateAddUserComboBox();
         }
         catch(NullPointerException e)
         {
@@ -81,8 +97,35 @@ public class GroupsView implements IView, IObserver, ITabbable {
 
     private void createGroupAction()
     {
-        model.addGroup(groupNameField.getText());
+        groupsModel.addGroup(groupNameField.getText());
 
         switchActionPanelToGroupDetails();
+    }
+
+    private void populateAddUserComboBox()
+    {
+        addUserField.removeAllItems();
+
+        for(User user : usersModel.getUsers())
+        {
+            addUserField.addItem(user);
+        }
+
+        for(User user : selectedGroup.getUsers())
+        {
+            addUserField.removeItem(user);
+        }
+    }
+
+    private void addUserAction()
+    {
+        try
+        {
+            groupsModel.addUserToGroup(selectedGroup, (User) addUserField.getSelectedItem());
+        }
+        catch(NullPointerException e)
+        {
+            //todo implement some notification for the user
+        }
     }
 }
