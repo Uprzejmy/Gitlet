@@ -51,6 +51,13 @@ public class GroupsModel implements IGroupsModel{
         notifyGroupsModelObservers();
     }
 
+    public void removeUserFromGroup(Group group, User user)
+    {
+        group.removeUser(user);
+
+        notifyGroupsModelObservers();
+    }
+
     public void registerGroupsModelObserver(IObserver observer)
     {
         groupsModelObservers.add(observer);

@@ -43,6 +43,16 @@ public class Group implements IPermissionTarget, Comparable<IPermissionTarget>{
         }
     }
 
+    public void removeUser(User user)
+    {
+        users.remove(user);
+
+        if(user.getGroups().contains(this))
+        {
+            user.removeGroup(this);
+        }
+    }
+
     @Override
     public String toString()
     {

@@ -14,4 +14,5 @@ public interface IGroupsModel {
     Collection<Group> getGroups();
     void addGroup(String groupName);
     void addUserToGroup(Group group, User user);
+    void removeUserFromGroup(Group group, User user);
 }

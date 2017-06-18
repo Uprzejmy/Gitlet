@@ -56,6 +56,16 @@ public class User implements IPermissionTarget {
         }
     }
 
+    public void removeGroup(Group group)
+    {
+        this.groups.remove(group);
+
+        if(group.getUsers().contains(this))
+        {
+            group.removeUser(this);
+        }
+    }
+
     @Override
     public String toString()
     {

@@ -27,6 +27,7 @@ public class GroupsView implements IView, IObserver, ITabbable {
     private JComboBox addUserField;
     private JButton addUserButton;
     private JScrollPane scrolledUsersList;
+    private JButton removeSelectedUserButton;
 
     private IGroupsModel groupsModel;
     private IUsersModel usersModel;
@@ -47,6 +48,7 @@ public class GroupsView implements IView, IObserver, ITabbable {
         addGroupButton.addActionListener(e -> switchActionPanelToGroupCreate());
         createGroupButton.addActionListener(e -> createGroupAction());
         addUserButton.addActionListener(e -> addUserAction());
+        removeSelectedUserButton.addActionListener(e -> removeSelectedUserAction());
     }
 
     public JPanel getMainPanel()
@@ -125,6 +127,18 @@ public class GroupsView implements IView, IObserver, ITabbable {
         try
         {
             groupsModel.addUserToGroup(selectedGroup, (User) addUserField.getSelectedItem());
+        }
+        catch(NullPointerException e)
+        {
+            //todo implement some notification for the user
+        }
+    }
+
+    private void removeSelectedUserAction()
+    {
+        try
+        {
+            groupsModel.removeUserFromGroup(selectedGroup, (User) usersList.getSelectedValue());
         }
         catch(NullPointerException e)
         {
