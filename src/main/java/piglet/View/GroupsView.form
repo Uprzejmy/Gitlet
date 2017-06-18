@@ -20,7 +20,10 @@
         <children>
           <component id="cc3a4" class="javax.swing.JList" binding="groupsList">
             <constraints/>
-            <properties/>
+            <properties>
+              <model/>
+              <selectionMode value="0"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
@@ -74,7 +77,10 @@
                 <children>
                   <component id="e49" class="javax.swing.JList" binding="usersList">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <model/>
+                      <selectionMode value="0"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>

@@ -20,7 +20,9 @@
         <children>
           <component id="4e403" class="javax.swing.JList" binding="repositoriesList">
             <constraints/>
-            <properties/>
+            <properties>
+              <selectionMode value="0"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
@@ -94,6 +96,7 @@
                     <constraints/>
                     <properties>
                       <model/>
+                      <selectionMode value="0"/>
                     </properties>
                   </component>
                 </children>
