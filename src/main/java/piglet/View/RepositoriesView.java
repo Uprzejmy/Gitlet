@@ -1,10 +1,7 @@
 package piglet.View;
 
 import com.sun.org.apache.regexp.internal.RE;
-import piglet.Model.Entity.EPermission;
-import piglet.Model.Entity.Group;
-import piglet.Model.Entity.Repository;
-import piglet.Model.Entity.RepositoryPermission;
+import piglet.Model.Entity.*;
 import piglet.Model.IGroupsModel;
 import piglet.Model.IRepositoriesModel;
 import piglet.Model.IUsersModel;
@@ -107,7 +104,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
 
     private void addRepositoryPermissionAction()
     {
-        repositoriesModel.addRepositoryPermission(selectedRepository, (Group) addRepositoryPermissionTargetField.getSelectedItem(), (EPermission) addRepositoryPermissionAccessField.getSelectedItem());
+        repositoriesModel.addRepositoryPermission(selectedRepository, (IPermissionTarget) addRepositoryPermissionTargetField.getSelectedItem(), (EPermission) addRepositoryPermissionAccessField.getSelectedItem());
     }
 
     private void createRepositoryAction()
@@ -131,6 +128,19 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
                 if(repositoryPermission.getTarget() == group)
                 {
                     addRepositoryPermissionTargetField.removeItem(group);
+                }
+            }
+        }
+
+        for(User user : usersModel.getUsers())
+        {
+            addRepositoryPermissionTargetField.addItem(user);
+
+            for(RepositoryPermission repositoryPermission : selectedRepository.getRepositoryPermissions())
+            {
+                if(repositoryPermission.getTarget() == user)
+                {
+                    addRepositoryPermissionTargetField.removeItem(user);
                 }
             }
         }
