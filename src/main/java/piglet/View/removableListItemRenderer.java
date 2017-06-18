@@ -5,6 +5,8 @@ import java.awt.*;
 
 /**
  * Created by Uprzejmy on 18.06.2017.
+ *
+ * example renderer class
  */
 public class removableListItemRenderer<User> extends JLabel implements ListCellRenderer<User> {
 
