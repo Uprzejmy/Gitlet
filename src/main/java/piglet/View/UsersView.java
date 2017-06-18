@@ -72,6 +72,9 @@ public class UsersView implements IView, IObserver, ITabbable {
 
     private void switchActionPanelToUserCreate()
     {
+        usernameField.setText("");
+        publicKeyField.setText("");
+
         userDetailsPanel.setVisible(false);
         addUserPanel.setVisible(true);
     }

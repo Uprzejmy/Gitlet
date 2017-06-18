@@ -86,6 +86,8 @@ public class GroupsView implements IView, IObserver, ITabbable {
 
     private void switchActionPanelToGroupCreate()
     {
+        groupNameField.setText("");
+
         groupDetailsPanel.setVisible(false);
         addGroupPanel.setVisible(true);
     }

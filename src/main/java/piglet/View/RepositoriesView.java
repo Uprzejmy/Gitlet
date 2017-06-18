@@ -91,6 +91,8 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
 
     private void switchActionPanelToRepositoryCreate()
     {
+        repositoryNameField.setText("");
+        
         repositoryDetailsPanel.setVisible(false);
         addRepositoryPanel.setVisible(true);
     }
