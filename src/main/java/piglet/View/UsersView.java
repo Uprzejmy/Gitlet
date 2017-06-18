@@ -23,6 +23,7 @@ public class UsersView implements IView, IObserver, ITabbable {
     private JTextArea publicKeyField;
     private JScrollPane scrolledPublicKeyField;
     private JButton createUserButton;
+    private JScrollPane scrolledGroupsList;
 
     private IUsersModel model;
     private User selectedUser;
