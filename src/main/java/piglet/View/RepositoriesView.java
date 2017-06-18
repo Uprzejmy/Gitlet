@@ -1,6 +1,5 @@
 package piglet.View;
 
-import com.sun.org.apache.regexp.internal.RE;
 import piglet.Model.Entity.*;
 import piglet.Model.IGroupsModel;
 import piglet.Model.IRepositoriesModel;
@@ -26,7 +25,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
     private JButton createRepositoryButton;
     private JComboBox addRepositoryPermissionTargetField;
     private JComboBox addRepositoryPermissionAccessField;
-    private JButton addRepositoryPermissisonButton;
+    private JButton addRepositoryPermissionButton;
 
     private IRepositoriesModel repositoriesModel;
     private IUsersModel usersModel;
@@ -48,7 +47,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         repositoriesList.addListSelectionListener(e -> updateRepositoryDetails());
         addRepositoryButton.addActionListener(e -> switchActionPanelToRepositoryCreate());
         createRepositoryButton.addActionListener(e -> createRepositoryAction());
-        addRepositoryPermissisonButton.addActionListener(e -> addRepositoryPermissionAction());
+        addRepositoryPermissionButton.addActionListener(e -> addRepositoryPermissionAction());
     }
 
 
@@ -64,7 +63,6 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         repositoriesList.setListData(repositoriesModel.getRepositories().toArray());
 
         repositoriesList.setSelectedValue(oldSelectedRepository, true);
-        oldSelectedRepository = null;
 
         updateRepositoryDetails();
     }
@@ -104,7 +102,14 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
 
     private void addRepositoryPermissionAction()
     {
-        repositoriesModel.addRepositoryPermission(selectedRepository, (IPermissionTarget) addRepositoryPermissionTargetField.getSelectedItem(), (EPermission) addRepositoryPermissionAccessField.getSelectedItem());
+        try
+        {
+            repositoriesModel.addRepositoryPermission(selectedRepository, (IPermissionTarget) addRepositoryPermissionTargetField.getSelectedItem(), (EPermission) addRepositoryPermissionAccessField.getSelectedItem());
+        }
+        catch(NullPointerException e)
+        {
+            //todo implement some notification for the user
+        }
     }
 
     private void createRepositoryAction()
@@ -114,7 +119,6 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         switchActionPanelToRepositoryDetails();
     }
 
-    // uchhhh :/ this is actually the worst piece of code I've ever written
     private void populatePermissionsTargetComboBox()
     {
         addRepositoryPermissionTargetField.removeAllItems();
@@ -122,27 +126,16 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         for(Group group : groupsModel.getGroups())
         {
             addRepositoryPermissionTargetField.addItem(group);
-
-            for(RepositoryPermission repositoryPermission : selectedRepository.getRepositoryPermissions())
-            {
-                if(repositoryPermission.getTarget() == group)
-                {
-                    addRepositoryPermissionTargetField.removeItem(group);
-                }
-            }
         }
 
         for(User user : usersModel.getUsers())
         {
             addRepositoryPermissionTargetField.addItem(user);
+        }
 
-            for(RepositoryPermission repositoryPermission : selectedRepository.getRepositoryPermissions())
-            {
-                if(repositoryPermission.getTarget() == user)
-                {
-                    addRepositoryPermissionTargetField.removeItem(user);
-                }
-            }
+        for(RepositoryPermission repositoryPermission : selectedRepository.getRepositoryPermissions())
+        {
+            addRepositoryPermissionTargetField.removeItem(repositoryPermission.getTarget());
         }
     }
 
