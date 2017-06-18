@@ -26,6 +26,7 @@ public class GroupsView implements IView, IObserver, ITabbable {
     private JButton addGroupButton;
     private JComboBox addUserField;
     private JButton addUserButton;
+    private JScrollPane scrolledUsersList;
 
     private IGroupsModel groupsModel;
     private IUsersModel usersModel;
