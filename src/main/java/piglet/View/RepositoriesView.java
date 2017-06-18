@@ -1,7 +1,11 @@
 package piglet.View;
 
+import piglet.Model.Entity.Group;
 import piglet.Model.Entity.Repository;
+import piglet.Model.Entity.RepositoryPermission;
+import piglet.Model.IGroupsModel;
 import piglet.Model.IRepositoriesModel;
+import piglet.Model.IUsersModel;
 import piglet.Model.Model;
 
 import javax.swing.*;
@@ -21,14 +25,20 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
     private JPanel addRepositoryPanel;
     private JTextField repositoryNameField;
     private JButton createRepositoryButton;
+    private JComboBox addRepositoryPermissionField;
 
-    private IRepositoriesModel model;
+    private IRepositoriesModel repositoriesModel;
+    private IUsersModel usersModel;
+    private IGroupsModel groupsModel;
     private Repository selectedRepository;
 
     public RepositoriesView()
     {
-        this.model = Model.getInstance().getRepositoriesModel();
-        this.model.registerRepositoriesModelObserver(this);
+        this.repositoriesModel = Model.getInstance().getRepositoriesModel();
+        this.repositoriesModel.registerRepositoriesModelObserver(this);
+
+        this.usersModel = Model.getInstance().getUsersModel();
+        this.groupsModel = Model.getInstance().getGroupsModel();
 
         addRepositoryPanel.setVisible(false);
         repositoryDetailsPanel.setVisible(true);
@@ -38,6 +48,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
         createRepositoryButton.addActionListener(e -> createRepositoryAction());
     }
 
+
     public JPanel getMainPanel()
     {
         return mainPanel;
@@ -45,7 +56,7 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
 
     public void update()
     {
-        repositoriesList.setListData(model.getRepositories().toArray());
+        repositoriesList.setListData(repositoriesModel.getRepositories().toArray());
 
         updateRepositoryDetails();
     }
@@ -58,6 +69,8 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
 
             repositoryName.setText(selectedRepository.getName());
             permissions.setListData(selectedRepository.getRepositoryPermissions().toArray());
+
+            populateGroupsComboBox();
         }
         catch(NullPointerException e)
         {
@@ -81,8 +94,27 @@ public class RepositoriesView implements IView, IObserver, ITabbable  {
 
     private void createRepositoryAction()
     {
-        model.addRepository(repositoryNameField.getText());
+        repositoriesModel.addRepository(repositoryNameField.getText());
 
         switchActionPanelToRepositoryDetails();
+    }
+
+    // uchhhh :/
+    private void populateGroupsComboBox()
+    {
+        addRepositoryPermissionField.removeAllItems();
+
+        for(Group group : groupsModel.getGroups())
+        {
+            addRepositoryPermissionField.addItem(group);
+
+            for(RepositoryPermission repositoryPermission : selectedRepository.getRepositoryPermissions())
+            {
+                if(repositoryPermission.getTarget() == group)
+                {
+                    addRepositoryPermissionField.removeItem(group);
+                }
+            }
+        }
     }
 }
