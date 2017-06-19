@@ -96,4 +96,10 @@ public class User implements IPermissionTarget {
     {
         return this == user ? true : false;
     }
+
+    @Override
+    public String getConfigValue()
+    {
+        return username;
+    }
 }

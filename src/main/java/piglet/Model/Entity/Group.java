@@ -91,4 +91,10 @@ public class Group implements IPermissionTarget, Comparable<IPermissionTarget>{
 
         return false;
     }
+
+    @Override
+    public String getConfigValue()
+    {
+        return "@" + name;
+    }
 }

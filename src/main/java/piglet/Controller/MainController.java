@@ -1,5 +1,6 @@
 package piglet.Controller;
 
+import piglet.Model.ConfigurationHandler.FileManipulator;
 import piglet.Model.Model;
 import piglet.View.MainView;
 
@@ -16,6 +17,19 @@ public class MainController implements IController {
         mainView = new MainView();
 
         model.initialize();
+
+        mainView.getSaveButton().addActionListener(e -> saveAction());
+        mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
+    }
+
+    private void saveAction()
+    {
+        FileManipulator.saveDataToFile();
+    }
+
+    private void uploadAction()
+    {
+
     }
 
 }

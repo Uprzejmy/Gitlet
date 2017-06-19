@@ -16,6 +16,9 @@ public class MainView {
 
     private JPanel mainPanel;
     private JTabbedPane tabbedPane;
+    private JButton saveButton;
+    private JButton saveAndUploadButton;
+    private JPanel saveButtonsPanel;
 
     private JFrame frame;
 
@@ -54,5 +57,7 @@ public class MainView {
         return repositoriesView;
     }
 
+    public JButton getSaveButton() { return saveButton; }
 
+    public JButton getSaveAndUploadButton() { return saveAndUploadButton; }
 }
