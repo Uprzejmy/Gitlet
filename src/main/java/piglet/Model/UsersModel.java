@@ -37,6 +37,19 @@ public class UsersModel implements IUsersModel {
         notifyUsersModelObservers();
     }
 
+    public User findUserByUsername(String username)
+    {
+        for(User user : users)
+        {
+            if(user.getUsername().equalsIgnoreCase(username))
+            {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
     public void registerUsersModelObserver(IObserver observer)
     {
         usersModelObservers.add(observer);

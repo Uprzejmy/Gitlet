@@ -1,5 +1,6 @@
 package piglet.Model;
 
+import piglet.Model.ConfigurationHandler.ConfigLoader;
 import piglet.Model.Entity.*;
 import piglet.Model.Utils.ExampleLoader;
 
@@ -19,7 +20,7 @@ public class Model {
         groupsModel = new GroupsModel();
         repositoriesModel = new RepositoriesModel();
 
-        ExampleLoader.loadExampleData(this);
+        //ExampleLoader.loadExampleData(this);
     }
 
     public static Model getInstance()
@@ -37,6 +38,8 @@ public class Model {
         usersModel.initialize();
         groupsModel.initialize();
         repositoriesModel.initialize();
+
+        ConfigLoader.loadDataFromFile();
     }
 
     public UsersModel getUsersModel()

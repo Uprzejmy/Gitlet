@@ -58,6 +58,19 @@ public class GroupsModel implements IGroupsModel{
         notifyGroupsModelObservers();
     }
 
+    public Group findGroupByGroupName(String name)
+    {
+        for(Group group : groups)
+        {
+            if(group.getName() == name)
+            {
+                return group;
+            }
+        }
+
+        return null;
+    }
+
     public void registerGroupsModelObserver(IObserver observer)
     {
         groupsModelObservers.add(observer);
