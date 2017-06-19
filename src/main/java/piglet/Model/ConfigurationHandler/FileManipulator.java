@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE_NEW;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 /**
@@ -63,7 +64,7 @@ public class FileManipulator {
             for(User user : Model.getInstance().getUsersModel().getUsers())
             {
                 //create separate file
-                Files.write(Paths.get("users" + File.separator + user.getUsername() + ".pub"), Arrays.asList(user.getPublicKey()), UTF_8);
+                Files.write(Paths.get("users" + File.separator + user.getUsername().replaceAll("\\s","_") + ".pub"), Arrays.asList(user.getPublicKey()), UTF_8);
             }
         }
         catch(IOException e)
@@ -102,7 +103,7 @@ public class FileManipulator {
             //append group definition
 
             //the "@groupname = " goes first
-            stringBuilder.append("@" + group.getName().replaceAll("\\s","_")+ " =");
+            stringBuilder.append("@" + group.getName().replaceAll("\\s","_") + " =");
 
             //then all the usernames space separated
             for(User user : group.getUsers())
