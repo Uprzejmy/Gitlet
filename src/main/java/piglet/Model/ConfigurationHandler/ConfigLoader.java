@@ -1,8 +1,7 @@
 package piglet.Model.ConfigurationHandler;
 
 import org.apache.commons.io.FilenameUtils;
-import piglet.Model.Entity.Group;
-import piglet.Model.Entity.User;
+import piglet.Model.Entity.*;
 import piglet.Model.Model;
 
 import java.io.File;
@@ -23,11 +22,14 @@ public class ConfigLoader {
     private static Path configurationFilePath = Paths.get("conf" + File.separator + "gitolite.conf");
     private static String path;
     private static Pattern groupNamePattern = Pattern.compile("^@(.*?) =");
+    private static Pattern repositoryNamePattern = Pattern.compile("^repo (.*?)$");
+    private static Pattern repositoryPermissionPattern = Pattern.compile("^    (.*?) = (.*?)$");
 
     public static void loadDataFromFile()
     {
         loadUsersData();
         loadGroupsData();
+        loadRepositoriesData();
     }
 
     private static void loadUsersData()
@@ -102,6 +104,97 @@ public class ConfigLoader {
         {
             e.printStackTrace();
         }
+    }
+
+    private static void loadRepositoriesData()
+    {
+        List<String> fileData;
+
+        try
+        {
+            fileData = Files.readAllLines(configurationFilePath, UTF_8);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            //just in case initialize list with empty data to not let for to iterate
+            fileData = new ArrayList<>();
+        }
+
+        Repository lastRepository = null;
+
+        for(String configLine : fileData)
+        {
+            if(configLine.startsWith("repo"))
+            {
+                lastRepository = loadRepository(configLine);
+            }
+
+            else if(configLine.startsWith("    R"))
+            {
+                loadRepositoryPermission(lastRepository, configLine);
+            }
+        }
+    }
+
+    private static Repository loadRepository(String configLine)
+    {
+        try
+        {
+            Matcher matcher = repositoryNamePattern.matcher(configLine);
+            matcher.find();
+
+            String name = matcher.group(1).replaceAll("_"," ");
+            Model.getInstance().getRepositoriesModel().addRepository(name);
+            return Model.getInstance().getRepositoriesModel().findRepositoryByName(name);
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static void loadRepositoryPermission(Repository repository, String configLine)
+    {
+        try
+        {
+            Matcher matcher = repositoryPermissionPattern.matcher(configLine);
+            matcher.find();
+
+            String permission = matcher.group(1);
+
+            IPermissionTarget target;
+
+            if(matcher.group(2).startsWith("@"))
+            {
+                target = Model.getInstance().getGroupsModel().findGroupByGroupName(matcher.group(2).substring(1).replaceAll("_", " "));
+            }
+            else
+            {
+                target = Model.getInstance().getUsersModel().findUserByUsername(matcher.group(2).replaceAll("_", " "));
+            }
+
+            repository.addRepositoryPermission(target, getEPermissionValueFromConfig(permission));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static EPermission getEPermissionValueFromConfig(String value)
+    {
+        if(value.equals("R"))
+            return EPermission.R;
+        else if (value.equals("RW"))
+            return EPermission.RW;
+        else if (value.equals("RW+"))
+            return EPermission.ADMIN;
+        else
+            return EPermission.R;
     }
 
 }

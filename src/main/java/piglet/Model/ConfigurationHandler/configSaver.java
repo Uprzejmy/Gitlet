@@ -34,11 +34,6 @@ public class ConfigSaver {
         saveConfigFile();
     }
 
-    public static void loadDataFromFile()
-    {
-
-    }
-
     private static void saveUsersData()
     {
         try

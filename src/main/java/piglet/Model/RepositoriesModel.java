@@ -69,6 +69,19 @@ public class RepositoriesModel implements IRepositoriesModel {
         return accessibleRepositories;
     }
 
+    public Repository findRepositoryByName(String name)
+    {
+        for(Repository repository : repositories)
+        {
+            if(repository.getName() == name)
+            {
+                return repository;
+            }
+        }
+
+        return null;
+    }
+
     public void registerRepositoriesModelObserver(IObserver observer)
     {
         repositoriesModelObservers.add(observer);

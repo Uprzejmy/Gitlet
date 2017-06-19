@@ -62,7 +62,7 @@ public class GroupsModel implements IGroupsModel{
     {
         for(Group group : groups)
         {
-            if(group.getName() == name)
+            if(group.getName().equalsIgnoreCase(name))
             {
                 return group;
             }
