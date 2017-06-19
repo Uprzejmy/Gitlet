@@ -24,7 +24,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 /**
  * Created by Uprzejmy on 19.06.2017.
  */
-public class FileManipulator {
+public class configSaver {
     private static Path configurationFilePath = Paths.get("conf" + File.separator + "gitolite.conf");
     private static String path;
 

@@ -1,6 +1,6 @@
 package piglet.Controller;
 
-import piglet.Model.ConfigurationHandler.FileManipulator;
+import piglet.Model.ConfigurationHandler.configSaver;
 import piglet.Model.Model;
 import piglet.View.MainView;
 
@@ -24,7 +24,7 @@ public class MainController implements IController {
 
     private void saveAction()
     {
-        FileManipulator.saveDataToFile();
+        configSaver.saveDataToFile();
     }
 
     private void uploadAction()
