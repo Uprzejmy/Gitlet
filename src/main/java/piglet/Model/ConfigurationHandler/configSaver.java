@@ -25,8 +25,10 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
  * Created by Uprzejmy on 19.06.2017.
  */
 public class ConfigSaver {
-    private static Path configurationFilePath = Paths.get("conf" + File.separator + "gitolite.conf");
-    private static String path;
+    private static String repoPath = "gitolite-admin";
+    private static String usersPath = repoPath + File.separator + "keydir";
+    private static Path configurationFilePath = Paths.get(repoPath + File.separator + "conf" + File.separator + "gitolite.conf");
+
 
     public static void saveDataToFile()
     {
@@ -42,8 +44,9 @@ public class ConfigSaver {
             try
             {
 
-                Files.walk(Paths.get("users"))
+                Files.walk(Paths.get(usersPath))
                         .sorted(Comparator.reverseOrder())
+                        .filter(Files::isRegularFile)
                         .map(Path::toFile)
                         .forEach(File::delete);
             }
@@ -53,13 +56,13 @@ public class ConfigSaver {
             }
 
             //create directory
-            Files.createDirectory(Paths.get("users"));
+            //Files.createDirectory(Paths.get(usersPath));
 
             //for all users in memory
             for(User user : Model.getInstance().getUsersModel().getUsers())
             {
                 //create separate file
-                Files.write(Paths.get("users" + File.separator + user.getUsername().replaceAll("\\s","_") + ".pub"), Arrays.asList(user.getPublicKey()), UTF_8);
+                Files.write(Paths.get(usersPath + File.separator + user.getUsername().replaceAll("\\s","_") + ".pub"), Arrays.asList(user.getPublicKey()), UTF_8);
             }
         }
         catch(IOException e)

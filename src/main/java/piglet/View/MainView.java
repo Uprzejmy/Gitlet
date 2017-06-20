@@ -13,6 +13,7 @@ public class MainView {
     UsersView usersView;
     GroupsView groupsView;
     RepositoriesView repositoriesView;
+    OptionsView optionsView;
 
     private JPanel mainPanel;
     private JTabbedPane tabbedPane;
@@ -27,10 +28,12 @@ public class MainView {
         usersView = new UsersView();
         groupsView = new GroupsView();
         repositoriesView = new RepositoriesView();
+        optionsView = new OptionsView();
 
         tabbedPane.addTab("users", usersView.getMainPanel());
         tabbedPane.addTab("groups", groupsView.getMainPanel());
         tabbedPane.addTab("repositories", repositoriesView.getMainPanel());
+        tabbedPane.addTab("options", optionsView.getMainPanel());
 
         frame = new JFrame("admin");
         frame.setContentPane(mainPanel);
@@ -60,4 +63,9 @@ public class MainView {
     public JButton getSaveButton() { return saveButton; }
 
     public JButton getSaveAndUploadButton() { return saveAndUploadButton; }
+
+    public String getServerAddress()
+    {
+        return optionsView.getServerAddress();
+    }
 }

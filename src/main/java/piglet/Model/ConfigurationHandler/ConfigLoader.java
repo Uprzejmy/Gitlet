@@ -19,8 +19,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Created by Uprzejmy on 19.06.2017.
  */
 public class ConfigLoader {
-    private static Path configurationFilePath = Paths.get("conf" + File.separator + "gitolite.conf");
-    private static String path;
+    private static String repoPath = "gitolite-admin";
+    private static String usersPath = repoPath + File.separator + "keydir";
+    private static Path configurationFilePath = Paths.get(repoPath + File.separator + "conf" + File.separator + "gitolite.conf");
+
     private static Pattern groupNamePattern = Pattern.compile("^@(.*?) =");
     private static Pattern repositoryNamePattern = Pattern.compile("^repo (.*?)$");
     private static Pattern repositoryPermissionPattern = Pattern.compile("^    (.*?) = (.*?)$");
@@ -35,7 +37,7 @@ public class ConfigLoader {
     private static void loadUsersData()
     {
         // load all users data from users files
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get("users")))
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(usersPath)))
         {
             //for each file "username.pub"
             for (Path file: stream)
@@ -87,7 +89,7 @@ public class ConfigLoader {
             Matcher matcher = groupNamePattern.matcher(configLine);
             matcher.find();
 
-            String name = matcher.group(1).replaceAll("_"," ");
+            String name = matcher.group(1).replaceAll(" ", "").replaceAll("_"," ");
             Model.getInstance().getGroupsModel().addGroup(name);
             Group group = Model.getInstance().getGroupsModel().findGroupByGroupName(name);
 
@@ -164,17 +166,17 @@ public class ConfigLoader {
             Matcher matcher = repositoryPermissionPattern.matcher(configLine);
             matcher.find();
 
-            String permission = matcher.group(1);
+            String permission = matcher.group(1).replaceAll(" ","");
 
             IPermissionTarget target;
 
-            if(matcher.group(2).startsWith("@"))
+            if(matcher.group(2).replaceAll(" ","").startsWith("@"))
             {
-                target = Model.getInstance().getGroupsModel().findGroupByGroupName(matcher.group(2).substring(1).replaceAll("_", " "));
+                target = Model.getInstance().getGroupsModel().findGroupByGroupName(matcher.group(2).replaceAll(" ","").substring(1).replaceAll("_", " "));
             }
             else
             {
-                target = Model.getInstance().getUsersModel().findUserByUsername(matcher.group(2).replaceAll("_", " "));
+                target = Model.getInstance().getUsersModel().findUserByUsername(matcher.group(2).replaceAll(" ","").replaceAll("_", " "));
             }
 
             repository.addRepositoryPermission(target, getEPermissionValueFromConfig(permission));
