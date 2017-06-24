@@ -9,7 +9,9 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import piglet.Model.ConfigurationHandler.ConfigSaver;
 import piglet.Model.Model;
 import piglet.View.MainView;
+import piglet.View.StartView;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -21,21 +23,48 @@ import java.util.regex.Pattern;
 public class MainController implements IController {
     private Model model;
     private MainView mainView;
+    private StartView startView;
 
     public MainController()
     {
         model = Model.getInstance();
+
+        startView = new StartView();
         mainView = new MainView();
+
+        startView.setVisible(true);
+        mainView.setVisible(false);
 
         model.initialize();
 
         mainView.getSaveButton().addActionListener(e -> saveAction());
         mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
+        startView.getFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
     }
 
     private void saveAction()
     {
         ConfigSaver.saveDataToFile();
+    }
+
+    private void switchViewToMain()
+    {
+        startView.setVisible(false);
+        mainView.setVisible(true);
+    }
+
+    private void selectWorkingDirectoryActionPerformed(ActionEvent e)
+    {
+        if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION))
+        {
+            //save working directory
+            switchViewToMain();
+        }
+        else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION))
+        {
+            //System.out.println("cancel selection");
+            //do nothing..
+        }
     }
 
     private void uploadAction()

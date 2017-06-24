@@ -28,12 +28,10 @@ public class MainView {
         usersView = new UsersView();
         groupsView = new GroupsView();
         repositoriesView = new RepositoriesView();
-        optionsView = new OptionsView();
 
         tabbedPane.addTab("users", usersView.getMainPanel());
         tabbedPane.addTab("groups", groupsView.getMainPanel());
         tabbedPane.addTab("repositories", repositoriesView.getMainPanel());
-        tabbedPane.addTab("options", optionsView.getMainPanel());
 
         frame = new JFrame("admin");
         frame.setContentPane(mainPanel);
@@ -44,6 +42,10 @@ public class MainView {
         frame.setVisible(true);
     }
 
+    public void setVisible(boolean visible)
+    {
+        frame.setVisible(visible);
+    }
 
     public UsersView getUsersView()
     {
