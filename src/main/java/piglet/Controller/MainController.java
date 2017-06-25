@@ -1,5 +1,6 @@
 package piglet.Controller;
 
+import com.jcraft.jsch.Session;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -7,6 +8,10 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.JschConfigSessionFactory;
+import org.eclipse.jgit.transport.OpenSshConfig;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.SshTransport;
 import piglet.Model.ConfigurationHandler.ConfigSaver;
 import piglet.Model.Model;
 import piglet.View.MainView;
@@ -47,6 +52,7 @@ public class MainController implements IController {
         mainView.getSaveButton().addActionListener(e -> saveAction());
         mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
         startView.getExistingConfigurationFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
+        startView.getNewConfigurationFileChooser().addActionListener(e -> downloadNewConfigurationActionPerformed(e));
     }
 
     private void saveAction()
@@ -62,30 +68,33 @@ public class MainController implements IController {
 
     private void downloadNewConfigurationActionPerformed(ActionEvent e)
     {
+        SshSessionFactory sshSessionFactory = new JschConfigSessionFactory()
+        {
+            @Override
+            protected void configure(OpenSshConfig.Host host, Session session )
+            {
+                session.setConfig("StrictHostKeyChecking", "no");
+            }
+        };
+
+        SshSessionFactory.setInstance(sshSessionFactory);
+
         if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION))
         {
-            /*
-            if(validateConfigurationDirectory(startView.getExistingConfigurationFileChooser().getSelectedFile()))
+            try
             {
-                try
-                {
-                    git = Git.open(startView.getExistingConfigurationFileChooser().getSelectedFile());
+                git = Git.cloneRepository()
+                        .setURI("git@192.168.2.11:testing")
+                        .setDirectory(startView.getNewConfigurationFileChooser().getSelectedFile())
+                        .call();
 
-                    //save working directory
-                    switchViewToMain();
-                    return;
-                }
-                catch(RepositoryNotFoundException rnfe)
-                {
-                    System.out.println("not a git repository");
-                }
-                catch(IOException eio)
-                {
-                    //todo notification for the user
-                    System.out.println("io exception");
-                }
+                return;
             }
-            */
+            catch(GitAPIException exception)
+            {
+                System.out.println("Exception during pull");
+                System.out.println(exception.toString());
+            }
         }
         else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION))
         {
