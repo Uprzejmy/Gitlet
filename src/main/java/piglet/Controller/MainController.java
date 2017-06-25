@@ -15,7 +15,10 @@ import piglet.View.StartView;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -43,7 +46,7 @@ public class MainController implements IController {
 
         mainView.getSaveButton().addActionListener(e -> saveAction());
         mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
-        startView.getFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
+        startView.getExistingConfigurationFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
     }
 
     private void saveAction()
@@ -57,33 +60,94 @@ public class MainController implements IController {
         mainView.setVisible(true);
     }
 
+    private void downloadNewConfigurationActionPerformed(ActionEvent e)
+    {
+        if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION))
+        {
+            /*
+            if(validateConfigurationDirectory(startView.getExistingConfigurationFileChooser().getSelectedFile()))
+            {
+                try
+                {
+                    git = Git.open(startView.getExistingConfigurationFileChooser().getSelectedFile());
+
+                    //save working directory
+                    switchViewToMain();
+                    return;
+                }
+                catch(RepositoryNotFoundException rnfe)
+                {
+                    System.out.println("not a git repository");
+                }
+                catch(IOException eio)
+                {
+                    //todo notification for the user
+                    System.out.println("io exception");
+                }
+            }
+            */
+        }
+        else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION))
+        {
+            System.out.println("cancel selection");
+            //do nothing..
+        }
+
+        startView.getServerConnectionErrorLabel().setText("error downloading configuration");
+    }
+
     private void selectWorkingDirectoryActionPerformed(ActionEvent e)
     {
         if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION))
         {
-            try
+            if(validateConfigurationDirectory(startView.getExistingConfigurationFileChooser().getSelectedFile()))
             {
-                git = Git.open(startView.getFileChooser().getSelectedFile());
+                try
+                {
+                    git = Git.open(startView.getExistingConfigurationFileChooser().getSelectedFile());
 
-                //save working directory
-                switchViewToMain();
+                    //save working directory
+                    switchViewToMain();
+                    return;
+                }
+                catch(RepositoryNotFoundException rnfe)
+                {
+                    System.out.println("not a git repository");
+                }
+                catch(IOException eio)
+                {
+                    //todo notification for the user
+                    System.out.println("io exception");
+                }
             }
-            catch(RepositoryNotFoundException rnfe)
-            {
-                System.out.println("not a git repository");
-            }
-            catch(IOException eio)
-            {
-                //todo notification for the user
-                System.out.println("io exception");
-            }
-
         }
         else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION))
         {
             //System.out.println("cancel selection");
             //do nothing..
         }
+
+        startView.getInvalidRepositorySelectionLabel().setText("invalid settings directory selected");
+    }
+
+    private boolean validateConfigurationDirectory(File configurationDirectory)
+    {
+        List<String> files = new ArrayList<>();
+
+        for(File file : configurationDirectory.listFiles())
+        {
+            if(file.isDirectory())
+            {
+                if(file.getName().equals(".git"))
+                    files.add("repository");
+                if(file.getName().equals("conf"))
+                    files.add("configuration");
+                if(file.getName().equals("keydir"))
+                    files.add("users");
+            }
+        }
+
+        return files.size() == 3 ? true : false;
     }
 
     private void uploadAction()

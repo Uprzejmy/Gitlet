@@ -8,20 +8,35 @@ import java.awt.*;
  */
 public class StartView {
     private JLabel welcomeTextLabel;
-    private JLabel selectWorkingDirectoryLabel;
     private JButton selectWorkingDirectoryButton;
     private JPanel mainPanel;
-    JFileChooser fileChooser;
+    private JPanel downloadNewConfigurationPanel;
+    private JPanel selectWorkingDirectoryPanel;
+    private JLabel selectWorkingDirectoryLabel;
+    private JLabel invalidWorkingDirectoryLabel;
+    private JLabel downloadConfigurationLabel;
+    private JButton downloadConfigurationSelectLocationButton;
+    private JTextField downloadConfigurationServerAddressField;
+    private JLabel separatorLabel;
+    private JPanel serverAddressPanel;
+    private JLabel serverConnectionErrorLabel;
+    JFileChooser existingConfigurationFileChooser;
+    JFileChooser newConfigurationFileChooser;
 
     private JFrame frame;
 
     public StartView()
     {
         selectWorkingDirectoryButton.addActionListener(e -> selectWorkingDirectoryAction());
+        downloadConfigurationSelectLocationButton.addActionListener(e -> selectNewConfigurationLocationAction());
 
-        fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.setAcceptAllFileFilterUsed(false);
+        existingConfigurationFileChooser = new JFileChooser();
+        existingConfigurationFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        existingConfigurationFileChooser.setAcceptAllFileFilterUsed(false);
+
+        newConfigurationFileChooser = new JFileChooser();
+        newConfigurationFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        newConfigurationFileChooser.setAcceptAllFileFilterUsed(false);
 
         frame = new JFrame("admin");
         frame.setContentPane(mainPanel);
@@ -34,7 +49,12 @@ public class StartView {
 
     private void selectWorkingDirectoryAction()
     {
-        fileChooser.showOpenDialog(mainPanel);
+        existingConfigurationFileChooser.showOpenDialog(mainPanel);
+    }
+
+    private void selectNewConfigurationLocationAction()
+    {
+        newConfigurationFileChooser.showOpenDialog(mainPanel);
     }
 
     public void setVisible(boolean visible)
@@ -42,8 +62,17 @@ public class StartView {
         frame.setVisible(visible);
     }
 
-    public JFileChooser getFileChooser()
+    public JFileChooser getExistingConfigurationFileChooser()
     {
-        return fileChooser;
+        return existingConfigurationFileChooser;
     }
+
+    public JFileChooser getNewConfigurationFileChooser()
+    {
+        return newConfigurationFileChooser;
+    }
+
+    public JLabel getInvalidRepositorySelectionLabel() { return invalidWorkingDirectoryLabel; }
+
+    public JLabel getServerConnectionErrorLabel() { return serverConnectionErrorLabel; }
 }
