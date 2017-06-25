@@ -3,6 +3,7 @@ package piglet.Controller;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -24,6 +25,9 @@ public class MainController implements IController {
     private Model model;
     private MainView mainView;
     private StartView startView;
+
+    private String configurationPath;
+    Git git;
 
     public MainController()
     {
@@ -57,8 +61,23 @@ public class MainController implements IController {
     {
         if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION))
         {
-            //save working directory
-            switchViewToMain();
+            try
+            {
+                git = Git.open(startView.getFileChooser().getSelectedFile());
+
+                //save working directory
+                switchViewToMain();
+            }
+            catch(RepositoryNotFoundException rnfe)
+            {
+                System.out.println("not a git repository");
+            }
+            catch(IOException eio)
+            {
+                //todo notification for the user
+                System.out.println("io exception");
+            }
+
         }
         else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION))
         {
@@ -71,15 +90,10 @@ public class MainController implements IController {
     {
         try
         {
-            Git git = Git.open(new File("gitolite-admin"));
             git.add().addFilepattern(".").call();
             git.commit().setMessage(new Date().toString()).call();
 
             //git.push().call();
-        }
-        catch(IOException eio)
-        {
-            //todo notification for the user
         }
         catch(GitAPIException egit)
         {
