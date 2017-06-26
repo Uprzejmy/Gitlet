@@ -19,16 +19,18 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Created by Uprzejmy on 19.06.2017.
  */
 public class ConfigLoader {
-    private static String repoPath = "gitolite-admin";
-    private static String usersPath = repoPath + File.separator + "keydir";
-    private static Path configurationFilePath = Paths.get(repoPath + File.separator + "conf" + File.separator + "gitolite.conf");
+    private static String usersPath = "keydir";
+    private static String configurationFilePath = "conf" + File.separator + "gitolite.conf";
 
     private static Pattern groupNamePattern = Pattern.compile("^@(.*?) =");
     private static Pattern repositoryNamePattern = Pattern.compile("^repo (.*?)$");
     private static Pattern repositoryPermissionPattern = Pattern.compile("^    (.*?) = (.*?)$");
 
-    public static void loadDataFromFile()
+    public static void loadDataFromFile(File workingDirectory)
     {
+        usersPath = workingDirectory.getAbsolutePath() + File.separator + "keydir";
+        configurationFilePath = workingDirectory.getAbsolutePath() + File.separator + "conf" + File.separator + "gitolite.conf";
+
         loadUsersData();
         loadGroupsData();
         loadRepositoriesData();
@@ -64,7 +66,7 @@ public class ConfigLoader {
 
         try
         {
-            fileData = Files.readAllLines(configurationFilePath, UTF_8);
+            fileData = Files.readAllLines(Paths.get(configurationFilePath), UTF_8);
         }
         catch (IOException e)
         {
@@ -114,7 +116,7 @@ public class ConfigLoader {
 
         try
         {
-            fileData = Files.readAllLines(configurationFilePath, UTF_8);
+            fileData = Files.readAllLines(Paths.get(configurationFilePath), UTF_8);
         }
         catch (IOException e)
         {

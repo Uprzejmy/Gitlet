@@ -38,8 +38,6 @@ public class Model {
         usersModel.initialize();
         groupsModel.initialize();
         repositoriesModel.initialize();
-
-        ConfigLoader.loadDataFromFile();
     }
 
     public UsersModel getUsersModel()

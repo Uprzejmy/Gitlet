@@ -25,13 +25,15 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
  * Created by Uprzejmy on 19.06.2017.
  */
 public class ConfigSaver {
-    private static String repoPath = "gitolite-admin";
-    private static String usersPath = repoPath + File.separator + "keydir";
-    private static Path configurationFilePath = Paths.get(repoPath + File.separator + "conf" + File.separator + "gitolite.conf");
+    private static String usersPath = "keydir";
+    private static String configurationFilePath = "conf" + File.separator + "gitolite.conf";
 
 
-    public static void saveDataToFile()
+    public static void saveDataToFile(File workingDirectory)
     {
+        usersPath = workingDirectory.getAbsolutePath() + File.separator + "keydir";
+        configurationFilePath = workingDirectory.getAbsolutePath() + File.separator + "conf" + File.separator + "gitolite.conf";
+
         saveUsersData();
         saveConfigFile();
     }
@@ -77,11 +79,11 @@ public class ConfigSaver {
         try
         {
             //we want to override entire file
-            Files.write(configurationFilePath, Arrays.asList(""), UTF_8, TRUNCATE_EXISTING);
+            Files.write(Paths.get(configurationFilePath), Arrays.asList(""), UTF_8, TRUNCATE_EXISTING);
 
             saveGroupsDefinitions();
             //add separator between groups definitions and repositories definitions
-            Files.write(configurationFilePath, Arrays.asList(""), UTF_8, APPEND);
+            Files.write(Paths.get(configurationFilePath), Arrays.asList(""), UTF_8, APPEND);
             saveRepositoriesDefinitions();
         }
         catch(IOException e)
@@ -110,7 +112,7 @@ public class ConfigSaver {
             }
 
             //finally save the whole group record to the file
-            Files.write(configurationFilePath, Arrays.asList(stringBuilder.toString()), UTF_8, APPEND);
+            Files.write(Paths.get(configurationFilePath), Arrays.asList(stringBuilder.toString()), UTF_8, APPEND);
         }
     }
 
@@ -138,7 +140,7 @@ public class ConfigSaver {
             }
 
             //finally save the whole repository to the file
-            Files.write(configurationFilePath, Arrays.asList(stringBuilder.toString()), UTF_8, APPEND);
+            Files.write(Paths.get(configurationFilePath), Arrays.asList(stringBuilder.toString()), UTF_8, APPEND);
         }
     }
 

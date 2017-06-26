@@ -1,5 +1,7 @@
 package piglet.Controller;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -12,6 +14,8 @@ import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.SshTransport;
+import org.eclipse.jgit.util.FS;
+import piglet.Model.ConfigurationHandler.ConfigLoader;
 import piglet.Model.ConfigurationHandler.ConfigSaver;
 import piglet.Model.Model;
 import piglet.View.MainView;
@@ -34,7 +38,7 @@ public class MainController implements IController {
     private MainView mainView;
     private StartView startView;
 
-    private String configurationPath;
+    private File workingDirectory;
     Git git;
 
     public MainController()
@@ -49,25 +53,6 @@ public class MainController implements IController {
 
         model.initialize();
 
-        mainView.getSaveButton().addActionListener(e -> saveAction());
-        mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
-        startView.getExistingConfigurationFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
-        startView.getNewConfigurationFileChooser().addActionListener(e -> downloadNewConfigurationActionPerformed(e));
-    }
-
-    private void saveAction()
-    {
-        ConfigSaver.saveDataToFile();
-    }
-
-    private void switchViewToMain()
-    {
-        startView.setVisible(false);
-        mainView.setVisible(true);
-    }
-
-    private void downloadNewConfigurationActionPerformed(ActionEvent e)
-    {
         SshSessionFactory sshSessionFactory = new JschConfigSessionFactory()
         {
             @Override
@@ -79,14 +64,37 @@ public class MainController implements IController {
 
         SshSessionFactory.setInstance(sshSessionFactory);
 
+        mainView.getSaveButton().addActionListener(e -> saveAction());
+        mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
+        startView.getExistingConfigurationFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
+        startView.getNewConfigurationFileChooser().addActionListener(e -> downloadNewConfigurationActionPerformed(e));
+    }
+
+    private void saveAction()
+    {
+        ConfigSaver.saveDataToFile(workingDirectory);
+    }
+
+    private void switchViewToMain()
+    {
+        startView.setVisible(false);
+        mainView.setVisible(true);
+    }
+
+    private void downloadNewConfigurationActionPerformed(ActionEvent e)
+    {
         if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION))
         {
             try
             {
                 git = Git.cloneRepository()
-                        .setURI("git@192.168.2.11:testing")
+                        .setURI("git@192.168.43.46:gitolite-admin")
                         .setDirectory(startView.getNewConfigurationFileChooser().getSelectedFile())
                         .call();
+
+                workingDirectory = startView.getNewConfigurationFileChooser().getSelectedFile();
+                ConfigLoader.loadDataFromFile(workingDirectory);
+                switchViewToMain();
 
                 return;
             }
@@ -113,7 +121,10 @@ public class MainController implements IController {
             {
                 try
                 {
-                    git = Git.open(startView.getExistingConfigurationFileChooser().getSelectedFile());
+                    workingDirectory = startView.getExistingConfigurationFileChooser().getSelectedFile();
+                    git = Git.open(workingDirectory);
+
+                    ConfigLoader.loadDataFromFile(workingDirectory);
 
                     //save working directory
                     switchViewToMain();
@@ -166,11 +177,13 @@ public class MainController implements IController {
             git.add().addFilepattern(".").call();
             git.commit().setMessage(new Date().toString()).call();
 
-            //git.push().call();
+            git.push().call();
         }
         catch(GitAPIException egit)
         {
             //todo notification for the user
+            System.out.println("error during upload action");
+            System.out.println(egit.toString());
         }
 
     }
