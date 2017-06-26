@@ -67,7 +67,7 @@ public class MainController implements IController {
         mainView.getSaveButton().addActionListener(e -> saveAction());
         mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
         startView.getExistingConfigurationFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
-        startView.getNewConfigurationFileChooser().addActionListener(e -> downloadNewConfigurationActionPerformed(e));
+        startView.getDownloadConfigurationActionButton().addActionListener(e -> downloadNewConfigurationActionPerformed(e));
     }
 
     private void saveAction()
@@ -88,7 +88,7 @@ public class MainController implements IController {
             try
             {
                 git = Git.cloneRepository()
-                        .setURI("git@192.168.43.46:gitolite-admin")
+                        .setURI("git@" + startView.getServerAddress() + ":gitolite-admin")
                         .setDirectory(startView.getNewConfigurationFileChooser().getSelectedFile())
                         .call();
 

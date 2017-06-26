@@ -20,6 +20,7 @@ public class StartView {
     private JLabel separatorLabel;
     private JPanel serverAddressPanel;
     private JLabel serverConnectionErrorLabel;
+    private JButton downloadConfigurationActionButton;
     JFileChooser existingConfigurationFileChooser;
     JFileChooser newConfigurationFileChooser;
 
@@ -72,7 +73,17 @@ public class StartView {
         return newConfigurationFileChooser;
     }
 
+    public JButton getDownloadConfigurationActionButton()
+    {
+        return downloadConfigurationActionButton;
+    }
+
     public JLabel getInvalidRepositorySelectionLabel() { return invalidWorkingDirectoryLabel; }
 
     public JLabel getServerConnectionErrorLabel() { return serverConnectionErrorLabel; }
+
+    public String getServerAddress()
+    {
+        return downloadConfigurationServerAddressField.getText();
+    }
 }
