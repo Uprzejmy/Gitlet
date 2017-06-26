@@ -83,31 +83,23 @@ public class MainController implements IController {
 
     private void downloadNewConfigurationActionPerformed(ActionEvent e)
     {
-        if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION))
+        try
         {
-            try
-            {
-                git = Git.cloneRepository()
-                        .setURI("git@" + startView.getServerAddress() + ":gitolite-admin")
-                        .setDirectory(startView.getNewConfigurationFileChooser().getSelectedFile())
-                        .call();
+            git = Git.cloneRepository()
+                    .setURI("git@" + startView.getServerAddress() + ":gitolite-admin")
+                    .setDirectory(startView.getNewConfigurationFileChooser().getSelectedFile())
+                    .call();
 
-                workingDirectory = startView.getNewConfigurationFileChooser().getSelectedFile();
-                ConfigLoader.loadDataFromFile(workingDirectory);
-                switchViewToMain();
+            workingDirectory = startView.getNewConfigurationFileChooser().getSelectedFile();
+            ConfigLoader.loadDataFromFile(workingDirectory);
+            switchViewToMain();
 
-                return;
-            }
-            catch(GitAPIException exception)
-            {
-                System.out.println("Exception during pull");
-                System.out.println(exception.toString());
-            }
+            return;
         }
-        else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION))
+        catch(GitAPIException exception)
         {
-            System.out.println("cancel selection");
-            //do nothing..
+            System.out.println("Exception during pull");
+            System.out.println(exception.toString());
         }
 
         startView.getServerConnectionErrorLabel().setText("error downloading configuration");
