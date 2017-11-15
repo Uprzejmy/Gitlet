@@ -1,9 +1,5 @@
 package piglet.Model;
 
-import piglet.Model.ConfigurationHandler.ConfigLoader;
-import piglet.Model.Entity.*;
-import piglet.Model.Utils.ExampleLoader;
-
 /**
  * Created by Uprzejmy on 11.06.2017.
  */

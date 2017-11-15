@@ -5,7 +5,6 @@ import piglet.Model.Entity.Group;
 import piglet.Model.Entity.User;
 import piglet.Model.Utils.GroupComparator;
 import piglet.View.IObserver;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.ArrayList;
 import java.util.Collection;

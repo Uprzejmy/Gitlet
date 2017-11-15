@@ -1,6 +1,5 @@
 package piglet.Model.Utils;
 
-import piglet.Model.Entity.IPermissionTarget;
 import piglet.Model.Entity.RepositoryPermission;
 
 import java.util.Comparator;

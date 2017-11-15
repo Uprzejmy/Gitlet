@@ -3,7 +3,6 @@ package piglet.Model.Entity;
 import piglet.Model.Utils.UserComparator;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
 

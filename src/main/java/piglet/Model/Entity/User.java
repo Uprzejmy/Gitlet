@@ -94,7 +94,7 @@ public class User implements IPermissionTarget {
     @Override
     public boolean contains(User user)
     {
-        return this == user ? true : false;
+        return this == user;
     }
 
     @Override

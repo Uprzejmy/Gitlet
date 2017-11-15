@@ -73,7 +73,7 @@ public class RepositoriesModel implements IRepositoriesModel {
     {
         for(Repository repository : repositories)
         {
-            if(repository.getName() == name)
+            if(repository.getName().equals(name))
             {
                 return repository;
             }

@@ -1,7 +1,6 @@
 package piglet.View;
 
 import piglet.Model.Entity.Group;
-import piglet.Model.Entity.RepositoryPermission;
 import piglet.Model.Entity.User;
 import piglet.Model.IGroupsModel;
 import piglet.Model.IUsersModel;

@@ -9,9 +9,6 @@ import piglet.Model.Model;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**

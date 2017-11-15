@@ -1,20 +1,12 @@
 package piglet.Controller;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig;
 import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.SshTransport;
-import org.eclipse.jgit.util.FS;
 import piglet.Model.ConfigurationHandler.ConfigLoader;
 import piglet.Model.ConfigurationHandler.ConfigSaver;
 import piglet.Model.Model;
@@ -24,11 +16,9 @@ import piglet.View.StartView;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by Uprzejmy on 12.06.2017.
@@ -67,7 +57,7 @@ public class MainController implements IController {
         mainView.getSaveButton().addActionListener(e -> saveAction());
         mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
         startView.getExistingConfigurationFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
-        startView.getDownloadConfigurationActionButton().addActionListener(e -> downloadNewConfigurationActionPerformed(e));
+        startView.getDownloadConfigurationActionButton().addActionListener(this::downloadNewConfigurationActionPerformed);
     }
 
     private void saveAction()
@@ -159,7 +149,7 @@ public class MainController implements IController {
             }
         }
 
-        return files.size() == 3 ? true : false;
+        return files.size() == 3;
     }
 
     private void uploadAction()

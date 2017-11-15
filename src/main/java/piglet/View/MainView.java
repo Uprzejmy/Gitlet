@@ -1,7 +1,5 @@
 package piglet.View;
 
-import piglet.Model.Model;
-
 import javax.swing.*;
 import java.awt.*;
 

@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -191,14 +190,17 @@ public class ConfigLoader {
 
     private static EPermission getEPermissionValueFromConfig(String value)
     {
-        if(value.equals("R"))
-            return EPermission.R;
-        else if (value.equals("RW"))
-            return EPermission.RW;
-        else if (value.equals("RW+"))
-            return EPermission.ADMIN;
-        else
-            return EPermission.R;
+        switch (value)
+        {
+            case "R":
+                return EPermission.R;
+            case "RW":
+                return EPermission.RW;
+            case "RW+":
+                return EPermission.ADMIN;
+            default:
+                return EPermission.R;
+        }
     }
 
 }
