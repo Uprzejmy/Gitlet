@@ -25,7 +25,7 @@ public class ExampleLoader {
             {
                 if(Math.random() < 0.2)
                 {
-                    group.addUser(user);
+                    group.addMember(user);
                 }
             }
 

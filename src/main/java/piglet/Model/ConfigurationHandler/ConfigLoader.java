@@ -100,7 +100,7 @@ public class ConfigLoader {
 
             for(String username : matcher.group(1).split("\\s"))
             {
-                group.addUser(Model.getInstance().getUsersModel().findUserByUsername(username.replaceAll("_", " ")));
+                group.addMember(Model.getInstance().getUsersModel().findUserByUsername(username.replaceAll("_", " ")));
             }
         }
         catch(Exception e)

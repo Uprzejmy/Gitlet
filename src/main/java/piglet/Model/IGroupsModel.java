@@ -1,7 +1,7 @@
 package piglet.Model;
 
 import piglet.Model.Entity.Group;
-import piglet.Model.Entity.User;
+import piglet.Model.Entity.GroupMember;
 import piglet.View.IObserver;
 
 import java.util.Collection;
@@ -13,6 +13,6 @@ public interface IGroupsModel {
     void registerGroupsModelObserver(IObserver observer);
     Collection<Group> getGroups();
     void addGroup(String groupName);
-    void addUserToGroup(Group group, User user);
-    void removeUserFromGroup(Group group, User user);
+    void addMemberToGroup(Group group, GroupMember member);
+    void removeMemberFromGroup(Group group, GroupMember member);
 }

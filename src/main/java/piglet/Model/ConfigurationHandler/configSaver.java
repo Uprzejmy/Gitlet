@@ -101,9 +101,9 @@ public class ConfigSaver {
             stringBuilder.append("@" + group.getName().replaceAll("\\s","_") + " =");
 
             //then all the usernames space separated
-            for(User user : group.getUsers())
+            for(GroupMember member : group.getMembers())
             {
-                stringBuilder.append(" " + user.getUsername().replaceAll("\\s","_"));
+                stringBuilder.append(" " + member.getName().replaceAll("\\s","_"));
             }
 
             //finally save the whole group record to the file

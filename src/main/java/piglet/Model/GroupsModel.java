@@ -2,7 +2,7 @@ package piglet.Model;
 
 
 import piglet.Model.Entity.Group;
-import piglet.Model.Entity.User;
+import piglet.Model.Entity.GroupMember;
 import piglet.Model.Utils.GroupComparator;
 import piglet.View.IObserver;
 
@@ -43,16 +43,16 @@ public class GroupsModel implements IGroupsModel{
         notifyGroupsModelObservers();
     }
 
-    public void addUserToGroup(Group group, User user)
+    public void addMemberToGroup(Group group, GroupMember member)
     {
-        group.addUser(user);
+        group.addMember(member);
 
         notifyGroupsModelObservers();
     }
 
-    public void removeUserFromGroup(Group group, User user)
+    public void removeMemberFromGroup(Group group, GroupMember member)
     {
-        group.removeUser(user);
+        group.removeMember(member);
 
         notifyGroupsModelObservers();
     }

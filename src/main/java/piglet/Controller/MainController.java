@@ -57,7 +57,7 @@ public class MainController implements IController {
         mainView.getSaveButton().addActionListener(e -> saveAction());
         mainView.getSaveAndUploadButton().addActionListener(e -> { saveAction(); uploadAction(); });
         startView.getExistingConfigurationFileChooser().addActionListener(e -> selectWorkingDirectoryActionPerformed(e));
-        startView.getDownloadConfigurationActionButton().addActionListener(this::downloadNewConfigurationActionPerformed);
+        startView.getDownloadConfigurationActionButton().addActionListener(e -> downloadNewConfigurationActionPerformed(e));
     }
 
     private void saveAction()

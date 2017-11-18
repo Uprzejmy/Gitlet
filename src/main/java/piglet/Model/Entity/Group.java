@@ -1,6 +1,6 @@
 package piglet.Model.Entity;
 
-import piglet.Model.Utils.UserComparator;
+import piglet.Model.Utils.GroupMemberComparator;
 
 import java.util.Collection;
 import java.util.SortedSet;
@@ -9,53 +9,40 @@ import java.util.TreeSet;
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class Group implements IPermissionTarget, Comparable<IPermissionTarget>{
+public class Group extends GroupMember implements IPermissionTarget, Comparable<IPermissionTarget>{
 
-    private String name;
-    private SortedSet<User> users;
+    private SortedSet<GroupMember> members;
 
     public Group(String name)
     {
-        users = new TreeSet<>(new UserComparator());
-        this.name = name;
+        super(name);
+
+        members = new TreeSet<>(new GroupMemberComparator());
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Collection<User> getUsers() {
-        return users;
-    }
-
-    public void addUser(User user)
+    public Collection<GroupMember> getMembers()
     {
-        users.add(user);
+        return members;
+    }
 
-        if(!user.getGroups().contains(this))
+    public void addMember(GroupMember member)
+    {
+        members.add(member);
+
+        if(!member.getGroups().contains(this))
         {
-            user.addGroup(this);
+            member.addToGroup(this);
         }
     }
 
-    public void removeUser(User user)
+    public void removeMember(GroupMember member)
     {
-        users.remove(user);
+        members.remove(member);
 
-        if(user.getGroups().contains(this))
+        if(member.getGroups().contains(this))
         {
-            user.removeGroup(this);
+            member.removeFromGroup(this);
         }
-    }
-
-    @Override
-    public String toString()
-    {
-        return name;
     }
 
     @Override
@@ -78,11 +65,11 @@ public class Group implements IPermissionTarget, Comparable<IPermissionTarget>{
     }
 
     @Override
-    public boolean contains(User user)
+    public boolean contains(User member)
     {
-        for(User u : users)
+        for(GroupMember m : members)
         {
-            if(u == user)
+            if(m == member)
             {
                 return true;
             }

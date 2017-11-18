@@ -1,6 +1,7 @@
 package piglet.View;
 
 import piglet.Model.Entity.Group;
+import piglet.Model.Entity.GroupMember;
 import piglet.Model.Entity.User;
 import piglet.Model.IGroupsModel;
 import piglet.Model.IUsersModel;
@@ -46,7 +47,7 @@ public class GroupsView implements IView, IObserver, ITabbable {
         groupsList.addListSelectionListener(e -> updateGroupDetails());
         addGroupButton.addActionListener(e -> switchActionPanelToGroupCreate());
         createGroupButton.addActionListener(e -> createGroupAction());
-        addUserButton.addActionListener(e -> addUserAction());
+        addUserButton.addActionListener(e -> addMemberAction());
         removeSelectedUserButton.addActionListener(e -> removeSelectedUserAction());
     }
 
@@ -73,7 +74,7 @@ public class GroupsView implements IView, IObserver, ITabbable {
             selectedGroup = (Group) groupsList.getSelectedValue();
 
             groupname.setText(selectedGroup.getName());
-            usersList.setListData(selectedGroup.getUsers().toArray());
+            usersList.setListData(selectedGroup.getMembers().toArray());
 
             populateAddUserComboBox();
         }
@@ -115,17 +116,17 @@ public class GroupsView implements IView, IObserver, ITabbable {
             addUserField.addItem(user);
         }
 
-        for(User user : selectedGroup.getUsers())
+        for(GroupMember member : selectedGroup.getMembers())
         {
-            addUserField.removeItem(user);
+            addUserField.removeItem(member);
         }
     }
 
-    private void addUserAction()
+    private void addMemberAction()
     {
         try
         {
-            groupsModel.addUserToGroup(selectedGroup, (User) addUserField.getSelectedItem());
+            groupsModel.addMemberToGroup(selectedGroup, (User) addUserField.getSelectedItem());
         }
         catch(NullPointerException e)
         {
@@ -137,7 +138,7 @@ public class GroupsView implements IView, IObserver, ITabbable {
     {
         try
         {
-            groupsModel.removeUserFromGroup(selectedGroup, (User) usersList.getSelectedValue());
+            groupsModel.removeMemberFromGroup(selectedGroup, (User) usersList.getSelectedValue());
         }
         catch(NullPointerException e)
         {

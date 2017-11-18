@@ -1,24 +1,19 @@
 package piglet.Model.Entity;
 
-import piglet.Model.Utils.GroupComparator;
-
-import java.util.*;
-
 /**
  * Created by Uprzejmy on 11.06.2017.
  */
-public class User implements IPermissionTarget {
+public class User extends GroupMember implements IPermissionTarget {
 
-    private String username;
     private String publicKey;
-    private Collection<Group> groups;
+    private Group group;
 
     public User(String username, String publicKey)
     {
-        this.username = username;
-        this.publicKey = publicKey;
+        super(username);
 
-        groups = new TreeSet<>(new GroupComparator());
+        this.publicKey = publicKey;
+        this.group = new Group(username);
     }
 
     public String getPublicKey()
@@ -33,43 +28,20 @@ public class User implements IPermissionTarget {
 
     public String getUsername()
     {
-        return username;
+        return name;
     }
 
     public void setUsername(String username)
     {
-        this.username = username;
+        this.name = username;
     }
 
-    public Collection<Group> getGroups()
-    {
-        return groups;
-    }
 
-    public void addGroup(Group group)
-    {
-        this.groups.add(group);
-
-        if(!group.getUsers().contains(this))
-        {
-            group.addUser(this);
-        }
-    }
-
-    public void removeGroup(Group group)
-    {
-        this.groups.remove(group);
-
-        if(group.getUsers().contains(this))
-        {
-            group.removeUser(this);
-        }
-    }
 
     @Override
     public String toString()
     {
-        return username;
+        return name;
     }
 
     @Override
@@ -100,6 +72,6 @@ public class User implements IPermissionTarget {
     @Override
     public String getConfigValue()
     {
-        return username;
+        return name;
     }
 }
